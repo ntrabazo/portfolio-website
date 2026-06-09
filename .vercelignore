@@ -1,0 +1,5 @@
+temporary screenshots/
+node_modules/
+.cache/
+screenshot.mjs
+serve.mjs
