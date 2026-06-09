@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nicolas Trabazo — Cybersecurity & AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:         #0b0b0f;
+      --s1:         #111118;
+      --s2:         #17171f;
+      --border:     rgba(196,163,90,0.12);
+      --border-h:   rgba(196,163,90,0.3);
+      --accent:     #c4a35a;
+      --accent-dim: rgba(196,163,90,0.08);
+      --text:       #e5e1d6;
+      --muted:      #8e8880;
+      --faint:      #3a3830;
+      --display:    'Cormorant', serif;
+      --mono:       'JetBrains Mono', monospace;
+      --body:       'Outfit', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      font-weight: 300;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    /* ── Grain ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.032;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ── Cursor ── */
+    #cur  { position:fixed; width:7px; height:7px; background:var(--accent); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .15s,height .15s; }
+    #cur2 { position:fixed; width:30px; height:30px; border:1px solid rgba(196,163,90,.35); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .2s,height .2s,opacity .2s; }
+    body:has(a:hover) #cur  { width:11px; height:11px; }
+    body:has(a:hover) #cur2 { width:46px; height:46px; opacity:.5; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.4rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid transparent;
+      transition: background .3s, backdrop-filter .3s, border-color .3s;
+    }
+    nav.on { background: rgba(11,11,15,.82); backdrop-filter: blur(14px); border-color: var(--border); }
+    .n-logo { font-family: var(--mono); font-size: .7rem; color: var(--accent); letter-spacing: .18em; text-transform: uppercase; }
+    .n-links { display:flex; gap:2.5rem; list-style:none; }
+    .n-links a { font-family:var(--mono); font-size:.66rem; color:var(--muted); text-decoration:none; letter-spacing:.14em; text-transform:uppercase; transition:color .2s; }
+    .n-links a:hover { color: var(--text); }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 3rem 5.5rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 65% 55% at 72% 25%, rgba(196,163,90,.055) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 65% at 8%  85%, rgba(60,80,140,.04) 0%, transparent 55%);
+    }
+    .h-eyebrow {
+      font-family:var(--mono); font-size:.66rem; color:var(--faint); letter-spacing:.22em; text-transform:uppercase;
+      margin-bottom: 1.6rem;
+      opacity:0; transform:translateY(8px); animation: up .8s ease .15s forwards;
+    }
+    .h-name {
+      font-family: var(--display); font-size: clamp(4rem,11.5vw,10.5rem);
+      font-weight: 300; line-height: .92; letter-spacing: -.015em; color: var(--text);
+      opacity:0; transform:translateY(18px); animation: up 1s ease .35s forwards;
+    }
+    .h-name em { font-style:italic; color:var(--accent); }
+    .h-sub {
+      margin-top: 2.2rem; display:flex; align-items:center; gap:1.8rem;
+      opacity:0; transform:translateY(8px); animation: up .8s ease .75s forwards;
+    }
+    .h-rule { width:52px; height:1px; background:var(--accent); opacity:.38; flex-shrink:0; }
+    .h-tag { font-family:var(--body); font-size:.98rem; font-weight:300; color:var(--muted); letter-spacing:.03em; }
+    .h-scroll {
+      position:absolute; bottom:2.2rem; right:3rem;
+      font-family:var(--mono); font-size:.6rem; color:var(--faint); letter-spacing:.18em; text-transform:uppercase;
+      writing-mode:vertical-rl;
+      opacity:0; animation: fadein 1s ease 1.3s forwards;
+    }
+
+    /* ── Sections ── */
+    .wrap { max-width:1160px; margin:0 auto; padding:8rem 3rem; }
+    .sec-head { display:flex; align-items:baseline; gap:1.4rem; margin-bottom:4rem; }
+    .sec-n { font-family:var(--mono); font-size:.62rem; color:var(--accent); letter-spacing:.22em; }
+    .sec-t { font-family:var(--display); font-size:clamp(2.4rem,4.5vw,3.8rem); font-weight:300; line-height:1; }
+    .sec-t em { font-style:italic; color:var(--accent); }
+
+    /* ── About ── */
+    .about-g { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
+    .about-p { font-size:1rem; line-height:1.85; color:var(--muted); margin-bottom:1.1rem; }
+    .about-p strong { color:var(--text); font-weight:500; }
+    .stat { padding:1.4rem 0; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:baseline; }
+    .stat:first-child { border-top:1px solid var(--border); }
+    .stat-l { font-family:var(--mono); font-size:.62rem; color:var(--faint); letter-spacing:.15em; text-transform:uppercase; }
+    .stat-v { font-family:var(--display); font-size:1.05rem; font-style:italic; color:var(--text); }
+
+    /* ── Projects ── */
+    .proj-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5px; background:var(--border); }
+    .proj {
+      background:var(--bg); padding:2.4rem; position:relative; overflow:hidden;
+      transition:background .3s;
+    }
+    .proj::before {
+      content:''; position:absolute; inset:0; background:var(--accent-dim);
+      opacity:0; transition:opacity .3s;
+    }
+    .proj:hover { background: var(--s1); }
+    .proj:hover::before { opacity:1; }
+    .proj-n { font-family:var(--mono); font-size:.58rem; color:var(--faint); letter-spacing:.2em; margin-bottom:1.4rem; }
+    .proj-name { font-family:var(--display); font-size:1.75rem; font-weight:400; color:var(--text); margin-bottom:.65rem; line-height:1.05; }
+    .proj-desc { font-size:.86rem; line-height:1.72; color:var(--muted); margin-bottom:1.4rem; }
+    .tags { display:flex; flex-wrap:wrap; gap:.45rem; }
+    .t {
+      font-family:var(--mono); font-size:.58rem; letter-spacing:.12em; text-transform:uppercase;
+      padding:.28rem .7rem; border:1px solid var(--border); color:var(--faint);
+      transition:border-color .2s, color .2s;
+    }
+    .proj:hover .t { border-color:rgba(196,163,90,.3); color:var(--accent); }
+    .proj.featured {
+      grid-column: 1/-1;
+      display: grid; grid-template-columns: 1fr auto; gap:3rem; align-items:end;
+    }
+    .proj.featured .proj-name { font-size:2.6rem; }
+    .proj-badge {
+      font-family:var(--mono); font-size:.58rem; letter-spacing:.15em; text-transform:uppercase;
+      color:var(--accent); padding:.38rem .75rem; border:1px solid rgba(196,163,90,.28);
+      align-self:flex-start; white-space:nowrap;
+    }
+
+    /* ── Stack ── */
+    .stack-g { display:grid; grid-template-columns:repeat(3,1fr); gap:3rem; }
+    .stack-cat { border-top:1px solid var(--border); padding-top:1.4rem; }
+    .stack-label { font-family:var(--mono); font-size:.62rem; color:var(--accent); letter-spacing:.2em; text-transform:uppercase; margin-bottom:1.4rem; }
+    .stack-row { display:flex; align-items:center; gap:.7rem; font-size:.88rem; color:var(--muted); margin-bottom:.65rem; }
+    .dot { width:3px; height:3px; border-radius:50%; background:var(--accent); opacity:.45; flex-shrink:0; }
+
+    /* ── Goals ── */
+    .goal {
+      display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:2rem;
+      padding:1.9rem 0; border-bottom:1px solid var(--border);
+      position:relative; overflow:hidden;
+      transition:padding-left .25s ease;
+    }
+    .goal:first-child { border-top:1px solid var(--border); }
+    .goal::before {
+      content:''; position:absolute; left:0; top:0; bottom:0; width:2px;
+      background:var(--accent); transform:scaleY(0); transition:transform .3s ease; transform-origin:bottom;
+    }
+    .goal:hover { padding-left:1rem; }
+    .goal:hover::before { transform:scaleY(1); }
+    .goal-n { font-family:var(--mono); font-size:.62rem; color:var(--faint); letter-spacing:.15em; min-width:2rem; }
+    .goal-t { font-family:var(--display); font-size:1.55rem; font-weight:300; color:var(--text); }
+    .goal-date { font-family:var(--mono); font-size:.6rem; color:var(--faint); letter-spacing:.1em; text-align:right; }
+
+    /* ── Contact ── */
+    .contact-g { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:end; }
+    .contact-h { font-family:var(--display); font-size:clamp(3rem,5.5vw,5rem); font-weight:300; line-height:.95; }
+    .contact-h em { font-style:italic; color:var(--accent); }
+    .clink {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1.2rem 0; border-bottom:1px solid var(--border);
+      text-decoration:none; transition:padding-left .2s ease;
+    }
+    .clink:hover { padding-left:.5rem; }
+    .clink-l { font-family:var(--mono); font-size:.62rem; color:var(--faint); letter-spacing:.15em; text-transform:uppercase; }
+    .clink-v { font-size:.9rem; color:var(--muted); transition:color .2s; }
+    .clink:hover .clink-v { color:var(--accent); }
+    .arr { color:var(--faint); transition:color .2s, transform .2s; }
+    .clink:hover .arr { color:var(--accent); transform:translateX(4px); }
+
+    /* ── Footer ── */
+    footer {
+      border-top:1px solid var(--border); padding:1.8rem 3rem;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    footer span { font-family:var(--mono); font-size:.62rem; color:var(--faint); letter-spacing:.1em; }
+
+    /* ── Animations ── */
+    @keyframes up    { to { opacity:1; transform:translateY(0); } }
+    @keyframes fadein{ to { opacity:1; } }
+
+    .r { opacity:0; transform:translateY(20px); transition:opacity .75s ease, transform .75s ease; }
+    .r.v { opacity:1; transform:translateY(0); }
+
+    /* ── Mobile ── */
+    @media (max-width:768px) {
+      nav { padding:1.2rem 1.4rem; }
+      .n-links { display:none; }
+      .hero { padding:0 1.4rem 4rem; }
+      .wrap { padding:5rem 1.4rem; }
+      .about-g  { grid-template-columns:1fr; gap:2.5rem; }
+      .proj-grid{ grid-template-columns:1fr; }
+      .proj.featured { grid-template-columns:1fr; }
+      .stack-g  { grid-template-columns:1fr 1fr; gap:2rem; }
+      .contact-g{ grid-template-columns:1fr; gap:3rem; }
+      footer    { flex-direction:column; gap:.5rem; text-align:center; }
+      .h-scroll { display:none; }
+      .goal     { grid-template-columns:auto 1fr; }
+      .goal-date{ display:none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<!-- Nav -->
+<nav id="nav">
+  <div class="n-logo">NT — Portfolio</div>
+  <ul class="n-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#goals">Goals</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <p class="h-eyebrow">Nicolas Trabazo · Builder &amp; Security Engineer</p>
+  <h1 class="h-name">Cybersecurity<br><em>&amp; AI</em><br>Engineering</h1>
+  <div class="h-sub">
+    <div class="h-rule"></div>
+    <span class="h-tag">Building systems that think, protect, and scale.</span>
+  </div>
+  <span class="h-scroll">Scroll to explore</span>
+</div>
+
+<!-- About -->
+<div class="wrap" id="about">
+  <div class="sec-head r">
+    <span class="sec-n">01 —</span>
+    <h2 class="sec-t">About <em>Me</em></h2>
+  </div>
+  <div class="about-g">
+    <div class="r">
+      <p class="about-p">I'm a <strong>Computer Science student at Kennesaw State University</strong> on the Double Owl track, continuing at Georgia Tech. I operate at the intersection of cybersecurity and AI automation — building tools that replace manual workflows with intelligent, autonomous systems.</p>
+      <p class="about-p">As <strong>President of Theta Chi</strong>, I lead a 60+ member chapter: designing operational pipelines, running recruitment, and driving initiatives that sharpen my organizational and leadership skills alongside the technical ones.</p>
+      <p class="about-p">My philosophy: <strong>automate the repeatable, secure the critical.</strong> I build end-to-end — from threat intelligence pipelines to full AI operating systems layered on top of Claude Code.</p>
+    </div>
+    <div class="r">
+      <div class="stat"><span class="stat-l">Institution</span><span class="stat-v">KSU → Georgia Tech</span></div>
+      <div class="stat"><span class="stat-l">Focus</span><span class="stat-v">Cybersecurity &amp; AI</span></div>
+      <div class="stat"><span class="stat-l">Certifications</span><span class="stat-v">CompTIA Security+</span></div>
+      <div class="stat"><span class="stat-l">In Progress</span><span class="stat-v">AZ-900 (Azure)</span></div>
+      <div class="stat"><span class="stat-l">Leadership</span><span class="stat-v">Theta Chi President</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- Work -->
+<div class="wrap" id="work" style="padding-top:0">
+  <div class="sec-head r">
+    <span class="sec-n">02 —</span>
+    <h2 class="sec-t">Selected <em>Work</em></h2>
+  </div>
+  <div class="proj-grid r">
+
+    <div class="proj featured">
+      <div>
+        <p class="proj-n">Featured Project</p>
+        <h3 class="proj-name">TITAN</h3>
+        <p class="proj-desc">Threat Intelligence &amp; Triage Automation Network. An 8-layer security pipeline that ingests threat feeds, classifies indicators of compromise, and automates triage decisions — reducing analyst workload on routine signal processing. Designed to operate autonomously at scale.</p>
+        <div class="tags">
+          <span class="t">Python</span><span class="t">Threat Intel</span><span class="t">Claude API</span>
+          <span class="t">Trigger.dev</span><span class="t">SIEM</span><span class="t">Automation</span>
+        </div>
+      </div>
+      <span class="proj-badge">In Development</span>
+    </div>
+
+    <div class="proj">
+      <p class="proj-n">Project 02</p>
+      <h3 class="proj-name">AIS-OS</h3>
+      <p class="proj-desc">A personal AI Operating System built on Claude Code — a layered system of skills, agents, workflows, and MCP integrations that automates daily operations from email triage to calendar management and decision logging.</p>
+      <div class="tags">
+        <span class="t">Claude Code</span><span class="t">MCP</span>
+        <span class="t">Automation</span><span class="t">Node.js</span>
+      </div>
+    </div>
+
+    <div class="proj">
+      <p class="proj-n">Project 03</p>
+      <h3 class="proj-name">Morning Brief</h3>
+      <p class="proj-desc">AI-powered daily briefing system. Runs on Trigger.dev at 6am, pulls Google Calendar and Notion tasks, analyzes priority with Claude, and delivers a structured day plan via email — every morning, fully automated.</p>
+      <div class="tags">
+        <span class="t">Trigger.dev</span><span class="t">Claude API</span>
+        <span class="t">Google APIs</span><span class="t">Notion</span>
+      </div>
+    </div>
+
+    <div class="proj">
+      <p class="proj-n">Project 04</p>
+      <h3 class="proj-name">PNM Pipeline</h3>
+      <p class="proj-desc">Automated recruitment intake for Theta Chi. Screenshots → Claude Vision → structured extraction → Notion database. Eliminated a recurring 2-hour manual data entry workflow across an entire recruitment season.</p>
+      <div class="tags">
+        <span class="t">Claude Vision</span><span class="t">Notion API</span>
+        <span class="t">Google Drive</span><span class="t">Automation</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Stack -->
+<div class="wrap" id="stack">
+  <div class="sec-head r">
+    <span class="sec-n">03 —</span>
+    <h2 class="sec-t">My <em>Stack</em></h2>
+  </div>
+  <div class="stack-g">
+    <div class="stack-cat r">
+      <p class="stack-label">Security</p>
+      <div class="stack-row"><span class="dot"></span>CompTIA Security+</div>
+      <div class="stack-row"><span class="dot"></span>Microsoft Azure (AZ-900)</div>
+      <div class="stack-row"><span class="dot"></span>Splunk SIEM</div>
+      <div class="stack-row"><span class="dot"></span>Threat Intelligence</div>
+      <div class="stack-row"><span class="dot"></span>Incident Response</div>
+    </div>
+    <div class="stack-cat r" style="transition-delay:.08s">
+      <p class="stack-label">Development</p>
+      <div class="stack-row"><span class="dot"></span>Python</div>
+      <div class="stack-row"><span class="dot"></span>JavaScript / Node.js</div>
+      <div class="stack-row"><span class="dot"></span>PowerShell</div>
+      <div class="stack-row"><span class="dot"></span>SQL</div>
+      <div class="stack-row"><span class="dot"></span>Git / GitHub</div>
+    </div>
+    <div class="stack-cat r" style="transition-delay:.16s">
+      <p class="stack-label">AI &amp; Automation</p>
+      <div class="stack-row"><span class="dot"></span>Claude Code / API</div>
+      <div class="stack-row"><span class="dot"></span>Trigger.dev</div>
+      <div class="stack-row"><span class="dot"></span>Playwright MCP</div>
+      <div class="stack-row"><span class="dot"></span>Perplexity MCP</div>
+      <div class="stack-row"><span class="dot"></span>Google Workspace MCP</div>
+    </div>
+  </div>
+</div>
+
+<!-- Goals -->
+<div class="wrap" id="goals">
+  <div class="sec-head r">
+    <span class="sec-n">04 —</span>
+    <h2 class="sec-t">What I'm <em>Building Toward</em></h2>
+  </div>
+  <div>
+    <div class="goal r"><span class="goal-n">01</span><span class="goal-t">Complete TITAN and ship it</span><span class="goal-date">Summer 2026</span></div>
+    <div class="goal r"><span class="goal-n">02</span><span class="goal-t">Earn Microsoft AZ-900</span><span class="goal-date">Summer 2026</span></div>
+    <div class="goal r"><span class="goal-n">03</span><span class="goal-t">Transfer to Georgia Tech</span><span class="goal-date">Fall 2026</span></div>
+    <div class="goal r"><span class="goal-n">04</span><span class="goal-t">Become a Claude Campus Ambassador</span><span class="goal-date">Fall 2026</span></div>
+    <div class="goal r"><span class="goal-n">05</span><span class="goal-t">Land a cybersecurity internship</span><span class="goal-date">2026 – 2027</span></div>
+  </div>
+</div>
+
+<!-- Contact -->
+<div class="wrap" id="contact">
+  <div class="contact-g">
+    <div class="r">
+      <h2 class="contact-h">Let's work<br><em>together.</em></h2>
+    </div>
+    <div class="r">
+      <a href="mailto:nicolastrabazo1@gmail.com" class="clink">
+        <span class="clink-l">Email</span>
+        <span class="clink-v">nicolastrabazo1@gmail.com</span>
+        <span class="arr">→</span>
+      </a>
+      <a href="https://github.com/nicolastrabazo7-bot" class="clink" target="_blank" rel="noopener">
+        <span class="clink-l">GitHub</span>
+        <span class="clink-v">nicolastrabazo7-bot</span>
+        <span class="arr">→</span>
+      </a>
+      <a href="https://linkedin.com/in/nicolastrabazo" class="clink" target="_blank" rel="noopener">
+        <span class="clink-l">LinkedIn</span>
+        <span class="clink-v">nicolastrabazo</span>
+        <span class="arr">→</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <span>© 2026 Nicolas Trabazo</span>
+  <span>Cybersecurity &amp; AI Engineering</span>
+</footer>
+
+<script>
+  // Cursor
+  const cur = document.getElementById('cur');
+  const cur2 = document.getElementById('cur2');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+  });
+  (function loop() {
+    rx += (mx - rx) * .11; ry += (my - ry) * .11;
+    cur2.style.left = rx + 'px'; cur2.style.top = ry + 'px';
+    requestAnimationFrame(loop);
+  })();
+
+  // Nav on scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('on', scrollY > 40), { passive: true });
+
+  // Reveal
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('v'); io.unobserve(e.target); } }), { threshold: .08 });
+  document.querySelectorAll('.r').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
