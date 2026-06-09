@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nicolas Trabazo — Cybersecurity & AI</title>
+  <title>Nicolas Trabazo — Cybersecurity & AI Automation</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,20 +82,15 @@
         radial-gradient(ellipse 65% 55% at 72% 25%, rgba(196,163,90,.055) 0%, transparent 60%),
         radial-gradient(ellipse 45% 65% at 8%  85%, rgba(60,80,140,.04) 0%, transparent 55%);
     }
-    .h-eyebrow {
-      font-family:var(--mono); font-size:.66rem; color:var(--faint); letter-spacing:.22em; text-transform:uppercase;
-      margin-bottom: 1.6rem;
-      opacity:0; transform:translateY(8px); animation: up .8s ease .15s forwards;
-    }
     .h-name {
       font-family: var(--display); font-size: clamp(4rem,11.5vw,10.5rem);
       font-weight: 300; line-height: .92; letter-spacing: -.015em; color: var(--text);
-      opacity:0; transform:translateY(18px); animation: up 1s ease .35s forwards;
+      opacity:0; transform:translateY(18px); animation: up 1s ease .2s forwards;
     }
     .h-name em { font-style:italic; color:var(--accent); }
     .h-sub {
       margin-top: 2.2rem; display:flex; align-items:center; gap:1.8rem;
-      opacity:0; transform:translateY(8px); animation: up .8s ease .75s forwards;
+      opacity:0; transform:translateY(8px); animation: up .8s ease .6s forwards;
     }
     .h-rule { width:52px; height:1px; background:var(--accent); opacity:.38; flex-shrink:0; }
     .h-tag { font-family:var(--body); font-size:.98rem; font-weight:300; color:var(--muted); letter-spacing:.03em; }
@@ -103,7 +98,7 @@
       position:absolute; bottom:2.2rem; right:3rem;
       font-family:var(--mono); font-size:.6rem; color:var(--faint); letter-spacing:.18em; text-transform:uppercase;
       writing-mode:vertical-rl;
-      opacity:0; animation: fadein 1s ease 1.3s forwards;
+      opacity:0; animation: fadein 1s ease 1.2s forwards;
     }
 
     /* ── Sections ── */
@@ -112,6 +107,14 @@
     .sec-n { font-family:var(--mono); font-size:.62rem; color:var(--accent); letter-spacing:.22em; }
     .sec-t { font-family:var(--display); font-size:clamp(2.4rem,4.5vw,3.8rem); font-weight:300; line-height:1; }
     .sec-t em { font-style:italic; color:var(--accent); }
+
+    /* ── Sub-section label ── */
+    .sub-label {
+      font-family:var(--mono); font-size:.62rem; color:var(--accent);
+      letter-spacing:.22em; text-transform:uppercase;
+      margin-bottom:2rem; padding-bottom:.8rem;
+      border-bottom:1px solid var(--border);
+    }
 
     /* ── About ── */
     .about-g { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
@@ -144,23 +147,38 @@
       transition:border-color .2s, color .2s;
     }
     .proj:hover .t { border-color:rgba(196,163,90,.3); color:var(--accent); }
-    .proj.featured {
-      grid-column: 1/-1;
-      display: grid; grid-template-columns: 1fr auto; gap:3rem; align-items:end;
+    .proj.span2 { grid-column:1/-1; }
+
+    /* ── Certifications ── */
+    .cert-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5px; background:var(--border); }
+    .cert {
+      background:var(--bg); padding:2rem 2.4rem;
+      display:flex; align-items:center; justify-content:space-between;
+      transition:background .3s;
     }
-    .proj.featured .proj-name { font-size:2.6rem; }
-    .proj-badge {
+    .cert:hover { background:var(--s1); }
+    .cert-name { font-family:var(--display); font-size:1.5rem; font-weight:400; color:var(--text); }
+    .cert-issuer { font-family:var(--mono); font-size:.6rem; color:var(--faint); letter-spacing:.15em; text-transform:uppercase; margin-top:.3rem; }
+    .cert-badge {
       font-family:var(--mono); font-size:.58rem; letter-spacing:.15em; text-transform:uppercase;
-      color:var(--accent); padding:.38rem .75rem; border:1px solid rgba(196,163,90,.28);
-      align-self:flex-start; white-space:nowrap;
+      color:var(--accent); padding:.3rem .65rem; border:1px solid rgba(196,163,90,.28);
     }
 
-    /* ── Stack ── */
-    .stack-g { display:grid; grid-template-columns:repeat(3,1fr); gap:3rem; }
-    .stack-cat { border-top:1px solid var(--border); padding-top:1.4rem; }
-    .stack-label { font-family:var(--mono); font-size:.62rem; color:var(--accent); letter-spacing:.2em; text-transform:uppercase; margin-bottom:1.4rem; }
-    .stack-row { display:flex; align-items:center; gap:.7rem; font-size:.88rem; color:var(--muted); margin-bottom:.65rem; }
-    .dot { width:3px; height:3px; border-radius:50%; background:var(--accent); opacity:.45; flex-shrink:0; }
+    /* ── In Development ── */
+    .dev-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5px; background:var(--border); }
+    .dev-item {
+      background:var(--bg); padding:2.4rem; position:relative; overflow:hidden;
+      transition:background .3s;
+    }
+    .dev-item::before {
+      content:''; position:absolute; inset:0; background:var(--accent-dim);
+      opacity:0; transition:opacity .3s;
+    }
+    .dev-item:hover { background:var(--s1); }
+    .dev-item:hover::before { opacity:1; }
+    .dev-label { font-family:var(--mono); font-size:.58rem; color:var(--accent); letter-spacing:.18em; text-transform:uppercase; margin-bottom:1rem; }
+    .dev-name { font-family:var(--display); font-size:2rem; font-weight:400; color:var(--text); margin-bottom:.6rem; line-height:1; }
+    .dev-desc { font-size:.86rem; line-height:1.72; color:var(--muted); }
 
     /* ── Goals ── */
     .goal {
@@ -218,8 +236,8 @@
       .wrap { padding:5rem 1.4rem; }
       .about-g  { grid-template-columns:1fr; gap:2.5rem; }
       .proj-grid{ grid-template-columns:1fr; }
-      .proj.featured { grid-template-columns:1fr; }
-      .stack-g  { grid-template-columns:1fr 1fr; gap:2rem; }
+      .cert-grid{ grid-template-columns:1fr; }
+      .dev-grid { grid-template-columns:1fr; }
       .contact-g{ grid-template-columns:1fr; gap:3rem; }
       footer    { flex-direction:column; gap:.5rem; text-align:center; }
       .h-scroll { display:none; }
@@ -238,7 +256,7 @@
   <div class="n-logo">NT — Portfolio</div>
   <ul class="n-links">
     <li><a href="#work">Work</a></li>
-    <li><a href="#stack">Stack</a></li>
+    <li><a href="#building">Building</a></li>
     <li><a href="#goals">Goals</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -247,11 +265,10 @@
 <!-- Hero -->
 <div class="hero">
   <div class="hero-glow"></div>
-  <p class="h-eyebrow">Nicolas Trabazo · Builder &amp; Security Engineer</p>
-  <h1 class="h-name">Cybersecurity<br><em>&amp; AI</em><br>Engineering</h1>
+  <h1 class="h-name">Cybersecurity<br><em>&amp; AI</em><br>Automation</h1>
   <div class="h-sub">
     <div class="h-rule"></div>
-    <span class="h-tag">Building systems that think, protect, and scale.</span>
+    <span class="h-tag">Bridging the gap between efficient AI systems and secure infrastructure.</span>
   </div>
   <span class="h-scroll">Scroll to explore</span>
 </div>
@@ -264,14 +281,14 @@
   </div>
   <div class="about-g">
     <div class="r">
-      <p class="about-p">I'm a <strong>Computer Science student at Kennesaw State University</strong> on the Double Owl track, continuing at Georgia Tech. I operate at the intersection of cybersecurity and AI automation — building tools that replace manual workflows with intelligent, autonomous systems.</p>
-      <p class="about-p">As <strong>President of Theta Chi</strong>, I lead a 60+ member chapter: designing operational pipelines, running recruitment, and driving initiatives that sharpen my organizational and leadership skills alongside the technical ones.</p>
-      <p class="about-p">My philosophy: <strong>automate the repeatable, secure the critical.</strong> I build end-to-end — from threat intelligence pipelines to full AI operating systems layered on top of Claude Code.</p>
+      <p class="about-p">I'm a <strong>Cybersecurity student at Kennesaw State University</strong> pursuing concurrent B.S. and M.S. degrees through the Double Owl accelerated pathway — already enrolled in graduate-level coursework with a 3.61 GPA. My foundation is in GRC methodology and technical security tools: Linux, Splunk, Wireshark, and risk frameworks.</p>
+      <p class="about-p">As <strong>President of Theta Chi</strong> — the largest IFC chapter on campus — I lead strategic direction and daily operations, represent the chapter to university leadership and the national organization, and manage the executive board overseeing all committees and initiatives. I'm also a member of <strong>Order of Omega</strong>, selected among the top 3% of Greek-letter organization members at KSU for academic achievement, leadership, and service.</p>
+      <p class="about-p">I'm part of the next generation of security professionals who see AI not as a threat to security, but as its most powerful tool. I'm obsessed with efficiency — in systems, in workflows, in every process I touch — and I'm actively building the skills to operate at the intersection of both fields.</p>
     </div>
     <div class="r">
-      <div class="stat"><span class="stat-l">Institution</span><span class="stat-v">KSU → Georgia Tech</span></div>
-      <div class="stat"><span class="stat-l">Focus</span><span class="stat-v">Cybersecurity &amp; AI</span></div>
-      <div class="stat"><span class="stat-l">Certifications</span><span class="stat-v">CompTIA Security+</span></div>
+      <div class="stat"><span class="stat-l">Degree</span><span class="stat-v">B.S. + M.S. — Double Owl</span></div>
+      <div class="stat"><span class="stat-l">GPA</span><span class="stat-v">3.61</span></div>
+      <div class="stat"><span class="stat-l">Certifications</span><span class="stat-v">Security+, A+, Cisco</span></div>
       <div class="stat"><span class="stat-l">In Progress</span><span class="stat-v">AZ-900 (Azure)</span></div>
       <div class="stat"><span class="stat-l">Leadership</span><span class="stat-v">Theta Chi President</span></div>
     </div>
@@ -284,99 +301,108 @@
     <span class="sec-n">02 —</span>
     <h2 class="sec-t">Selected <em>Work</em></h2>
   </div>
-  <div class="proj-grid r">
 
-    <div class="proj featured">
-      <div>
-        <p class="proj-n">Featured Project</p>
-        <h3 class="proj-name">TITAN</h3>
-        <p class="proj-desc">Threat Intelligence &amp; Triage Automation Network. An 8-layer security pipeline that ingests threat feeds, classifies indicators of compromise, and automates triage decisions — reducing analyst workload on routine signal processing. Designed to operate autonomously at scale.</p>
+  <!-- Projects -->
+  <div class="r" style="margin-bottom:4rem;">
+    <p class="sub-label">Projects</p>
+    <div class="proj-grid">
+
+      <div class="proj">
+        <p class="proj-n">Academic — Bachelor's Level</p>
+        <h3 class="proj-name">Cybersecurity Risk Assessment</h3>
+        <p class="proj-desc">Built a weighted asset inventory and decision matrix to evaluate system criticality across a simulated multi-asset environment. Quantified risk using likelihood × impact scoring and developed cost-benefit mitigation recommendations aligned with industry standards.</p>
         <div class="tags">
-          <span class="t">Python</span><span class="t">Threat Intel</span><span class="t">Claude API</span>
-          <span class="t">Trigger.dev</span><span class="t">SIEM</span><span class="t">Automation</span>
+          <span class="t">Risk Assessment</span><span class="t">Asset Inventory</span>
+          <span class="t">Likelihood × Impact</span><span class="t">Mitigation Planning</span>
         </div>
       </div>
-      <span class="proj-badge">In Development</span>
-    </div>
 
-    <div class="proj">
-      <p class="proj-n">Project 02</p>
-      <h3 class="proj-name">AIS-OS</h3>
-      <p class="proj-desc">A personal AI Operating System built on Claude Code — a layered system of skills, agents, workflows, and MCP integrations that automates daily operations from email triage to calendar management and decision logging.</p>
-      <div class="tags">
-        <span class="t">Claude Code</span><span class="t">MCP</span>
-        <span class="t">Automation</span><span class="t">Node.js</span>
+      <div class="proj">
+        <p class="proj-n">Academic — Master's Level</p>
+        <h3 class="proj-name">Enterprise Risk Management</h3>
+        <p class="proj-desc">Conducted asset-threat-vulnerability assessments using Clearwater IRM|Pro, producing residual risk scores to inform control selection across a simulated enterprise environment. Applied NIST risk assessment methodology to quantify inherent vs. residual risk and develop prioritized mitigation plans with documented feasibility and effectiveness ratings.</p>
+        <div class="tags">
+          <span class="t">NIST</span><span class="t">Clearwater IRM|Pro</span>
+          <span class="t">Residual Risk</span><span class="t">Control Selection</span>
+        </div>
+      </div>
+
+      <div class="proj span2">
+        <p class="proj-n">Personal Project</p>
+        <h3 class="proj-name">AIS-OS</h3>
+        <p class="proj-desc">A personal AI Operating System built on top of Claude Code — a deeply layered system of skills, agents, workflows, and MCP integrations woven into every layer of daily life. From email triage to calendar management to decision logging, every repeatable task has been mapped, evaluated, and automated. It started as an experiment in efficiency and became an obsession: a living system that gets smarter the more it's used.</p>
+        <div class="tags">
+          <span class="t">Claude Code</span><span class="t">MCP</span>
+          <span class="t">Automation</span><span class="t">Node.js</span><span class="t">Notion</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Certifications -->
+  <div class="r">
+    <p class="sub-label">Certifications</p>
+    <div class="cert-grid">
+      <div class="cert">
+        <div>
+          <div class="cert-name">Security+</div>
+          <div class="cert-issuer">CompTIA</div>
+        </div>
+        <span class="cert-badge">Earned</span>
+      </div>
+      <div class="cert">
+        <div>
+          <div class="cert-name">A+</div>
+          <div class="cert-issuer">CompTIA</div>
+        </div>
+        <span class="cert-badge">Earned</span>
+      </div>
+      <div class="cert" style="grid-column:1/-1">
+        <div>
+          <div class="cert-name">Intro to Cybersecurity</div>
+          <div class="cert-issuer">Cisco Networking Academy</div>
+        </div>
+        <span class="cert-badge">Earned</span>
       </div>
     </div>
-
-    <div class="proj">
-      <p class="proj-n">Project 03</p>
-      <h3 class="proj-name">Morning Brief</h3>
-      <p class="proj-desc">AI-powered daily briefing system. Runs on Trigger.dev at 6am, pulls Google Calendar and Notion tasks, analyzes priority with Claude, and delivers a structured day plan via email — every morning, fully automated.</p>
-      <div class="tags">
-        <span class="t">Trigger.dev</span><span class="t">Claude API</span>
-        <span class="t">Google APIs</span><span class="t">Notion</span>
-      </div>
-    </div>
-
-    <div class="proj">
-      <p class="proj-n">Project 04</p>
-      <h3 class="proj-name">PNM Pipeline</h3>
-      <p class="proj-desc">Automated recruitment intake for Theta Chi. Screenshots → Claude Vision → structured extraction → Notion database. Eliminated a recurring 2-hour manual data entry workflow across an entire recruitment season.</p>
-      <div class="tags">
-        <span class="t">Claude Vision</span><span class="t">Notion API</span>
-        <span class="t">Google Drive</span><span class="t">Automation</span>
-      </div>
-    </div>
-
   </div>
 </div>
 
-<!-- Stack -->
-<div class="wrap" id="stack">
+<!-- In Development -->
+<div class="wrap" id="building" style="padding-top:0">
   <div class="sec-head r">
     <span class="sec-n">03 —</span>
-    <h2 class="sec-t">My <em>Stack</em></h2>
+    <h2 class="sec-t">In <em>Development</em></h2>
   </div>
-  <div class="stack-g">
-    <div class="stack-cat r">
-      <p class="stack-label">Security</p>
-      <div class="stack-row"><span class="dot"></span>CompTIA Security+</div>
-      <div class="stack-row"><span class="dot"></span>Microsoft Azure (AZ-900)</div>
-      <div class="stack-row"><span class="dot"></span>Splunk SIEM</div>
-      <div class="stack-row"><span class="dot"></span>Threat Intelligence</div>
-      <div class="stack-row"><span class="dot"></span>Incident Response</div>
+  <div class="dev-grid r">
+
+    <div class="dev-item">
+      <p class="dev-label">Active Build</p>
+      <h3 class="dev-name">TITAN</h3>
+      <p class="dev-desc">Threat Intelligence &amp; Triage Automation Network. An 8-layer security pipeline that ingests threat feeds, classifies indicators of compromise, and automates triage decisions — designed to reduce analyst workload on routine signal processing. Target: ship as open source.</p>
     </div>
-    <div class="stack-cat r" style="transition-delay:.08s">
-      <p class="stack-label">Development</p>
-      <div class="stack-row"><span class="dot"></span>Python</div>
-      <div class="stack-row"><span class="dot"></span>JavaScript / Node.js</div>
-      <div class="stack-row"><span class="dot"></span>PowerShell</div>
-      <div class="stack-row"><span class="dot"></span>SQL</div>
-      <div class="stack-row"><span class="dot"></span>Git / GitHub</div>
+
+    <div class="dev-item">
+      <p class="dev-label">Active Study</p>
+      <h3 class="dev-name">AZ-900 &amp; AZ-104</h3>
+      <p class="dev-desc">Working through Microsoft Azure fundamentals and administrator certification tracks. Building fluency in cloud infrastructure, identity, security, and governance — the foundation for cloud-native security work.</p>
     </div>
-    <div class="stack-cat r" style="transition-delay:.16s">
-      <p class="stack-label">AI &amp; Automation</p>
-      <div class="stack-row"><span class="dot"></span>Claude Code / API</div>
-      <div class="stack-row"><span class="dot"></span>Trigger.dev</div>
-      <div class="stack-row"><span class="dot"></span>Playwright MCP</div>
-      <div class="stack-row"><span class="dot"></span>Perplexity MCP</div>
-      <div class="stack-row"><span class="dot"></span>Google Workspace MCP</div>
-    </div>
+
   </div>
 </div>
 
 <!-- Goals -->
-<div class="wrap" id="goals">
+<div class="wrap" id="goals" style="padding-top:0">
   <div class="sec-head r">
     <span class="sec-n">04 —</span>
     <h2 class="sec-t">What I'm <em>Building Toward</em></h2>
   </div>
   <div>
-    <div class="goal r"><span class="goal-n">01</span><span class="goal-t">Complete TITAN and ship it</span><span class="goal-date">Summer 2026</span></div>
-    <div class="goal r"><span class="goal-n">02</span><span class="goal-t">Earn Microsoft AZ-900</span><span class="goal-date">Summer 2026</span></div>
-    <div class="goal r"><span class="goal-n">03</span><span class="goal-t">Transfer to Georgia Tech</span><span class="goal-date">Fall 2026</span></div>
-    <div class="goal r"><span class="goal-n">04</span><span class="goal-t">Become a Claude Campus Ambassador</span><span class="goal-date">Fall 2026</span></div>
+    <div class="goal r"><span class="goal-n">01</span><span class="goal-t">Earn AZ-900, AZ-104, and SC-500</span><span class="goal-date">2026</span></div>
+    <div class="goal r"><span class="goal-n">02</span><span class="goal-t">Complete TITAN and ship it open source</span><span class="goal-date">2026</span></div>
+    <div class="goal r"><span class="goal-n">03</span><span class="goal-t">Transfer to Georgia Tech for the master's</span><span class="goal-date">2026 – 2027</span></div>
+    <div class="goal r"><span class="goal-n">04</span><span class="goal-t">Become a Claude Code Campus Ambassador</span><span class="goal-date">Fall 2026</span></div>
     <div class="goal r"><span class="goal-n">05</span><span class="goal-t">Land a cybersecurity internship</span><span class="goal-date">2026 – 2027</span></div>
   </div>
 </div>
@@ -410,7 +436,7 @@
 <!-- Footer -->
 <footer>
   <span>© 2026 Nicolas Trabazo</span>
-  <span>Cybersecurity &amp; AI Engineering</span>
+  <span>Bridging the gap between efficient AI systems and secure infrastructure.</span>
 </footer>
 
 <script>
