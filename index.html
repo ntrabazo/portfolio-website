@@ -149,6 +149,70 @@
     .proj:hover .t { border-color:rgba(196,163,90,.3); color:var(--accent); }
     .proj.span2 { grid-column:1/-1; }
 
+    /* ── Project accordion ── */
+    .proj-toggle {
+      display:flex; align-items:center; gap:.5rem; margin-top:1.4rem;
+      background:none; border:none; cursor:pointer; padding:0;
+      font-family:var(--mono); font-size:.6rem; letter-spacing:.18em;
+      text-transform:uppercase; color:var(--faint);
+      transition:color .2s;
+    }
+    .proj-toggle:hover { color:var(--accent); }
+    .proj-toggle svg { transition:transform .35s ease; }
+    .proj-toggle.open svg { transform:rotate(180deg); }
+
+    .proj-detail {
+      max-height:0; overflow:hidden;
+      transition:max-height .55s cubic-bezier(.4,0,.2,1), opacity .4s ease;
+      opacity:0;
+    }
+    .proj-detail.open { max-height:3000px; opacity:1; }
+
+    .proj-detail-inner {
+      padding-top:2rem; border-top:1px solid var(--border); margin-top:1.4rem;
+    }
+    .proj-overview {
+      font-size:.86rem; line-height:1.72; color:var(--muted); margin-bottom:2rem;
+    }
+    .proj-overview strong { color:var(--text); font-weight:500; }
+
+    .proj-phase-grid {
+      display:grid; grid-template-columns:1fr 1fr; gap:1.5px;
+      background:var(--border); margin-bottom:2rem;
+    }
+    .proj-phase {
+      background:var(--bg); padding:1.4rem;
+      transition:background .3s;
+    }
+    .proj-phase:hover { background:var(--s1); }
+    .proj-phase-n {
+      font-family:var(--mono); font-size:.56rem; color:var(--accent);
+      letter-spacing:.22em; text-transform:uppercase; margin-bottom:.5rem;
+    }
+    .proj-phase-t {
+      font-family:var(--display); font-size:1.15rem; font-weight:400;
+      color:var(--text); margin-bottom:.45rem; line-height:1.1;
+    }
+    .proj-phase-d { font-size:.82rem; line-height:1.7; color:var(--muted); }
+
+    .proj-diagram-wrap {
+      border:1px solid var(--border); padding:2rem;
+      display:flex; align-items:center; justify-content:center;
+      min-height:120px; margin-top:.5rem;
+    }
+    .proj-diagram-placeholder {
+      font-family:var(--mono); font-size:.6rem; color:var(--faint);
+      letter-spacing:.18em; text-transform:uppercase; text-align:center;
+    }
+    .proj-diagram { width:100%; display:block; }
+    .proj-diagram-cap {
+      font-family:var(--mono); font-size:.58rem; color:var(--faint);
+      letter-spacing:.15em; text-transform:uppercase;
+      margin-top:.7rem; text-align:center;
+    }
+
+    @media (max-width:768px) { .proj-phase-grid { grid-template-columns:1fr; } }
+
     /* ── Certifications ── */
     .cert-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5px; background:var(--border); }
     .cert {
@@ -316,6 +380,59 @@
           <span class="t">Risk Assessment</span><span class="t">Asset Inventory</span>
           <span class="t">Likelihood × Impact</span><span class="t">Mitigation Planning</span>
         </div>
+
+        <button class="proj-toggle" aria-expanded="false" onclick="toggleProj(this)">
+          <span>View Details</span>
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.6">
+            <polyline points="1.5,3.5 5.5,7.5 9.5,3.5"/>
+          </svg>
+        </button>
+
+        <div class="proj-detail" role="region">
+          <div class="proj-detail-inner">
+
+            <p class="proj-overview">
+              A full-scope risk assessment for <strong>Verdant Delights</strong>, a simulated plant-based
+              food company. The environment consisted of 10 critical assets across two server racks, all
+              running Windows Server 2012 (end-of-life) with no security policies, no trained IT staff,
+              and no incident or disaster recovery plans in place.
+            </p>
+
+            <div class="proj-phase-grid">
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 01 —</p>
+                <p class="proj-phase-t">Asset Inventory</p>
+                <p class="proj-phase-d">Catalogued all 10 assets across both racks — documenting data classification (PII, PCI, CC), data owners, RTO/RPO requirements, and data flow paths. The ERP system stood out immediately: internet-facing, handling live customer payment data, 1-hour RTO.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 02 —</p>
+                <p class="proj-phase-t">Asset Valuation Matrix</p>
+                <p class="proj-phase-d">Built a weighted scoring model using four business-aligned criteria: Operational Dependency (0.30), Direct Revenue Impact (0.30), Reputational Impact (0.30), and Legal Exposure (0.10). Each weight was justified against Verdant Delights' profile as a consumer brand with modest compliance obligations.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 03 —</p>
+                <p class="proj-phase-t">Risk Determination</p>
+                <p class="proj-phase-d">Applied a Likelihood × Impact framework to each asset. Key environment-wide vulnerabilities: EOL operating systems, zero network segmentation, no MFA, no employee security training, no IR/DR plan. ERP scored L4 × I5 — the highest risk in the environment.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 04 —</p>
+                <p class="proj-phase-t">Risk Response</p>
+                <p class="proj-phase-d">Designed per-asset mitigations within realistic SMB budget constraints: OS upgrades, MFA enforcement, VLAN segmentation for ERP and Distribution, tiered admin RBAC, immutable backups, and a quarterly phishing simulation program. Projected ERP risk reduced from 20 to 12 post-treatment.</p>
+              </div>
+
+            </div>
+
+            <div class="proj-diagram-wrap">
+              <p class="proj-diagram-placeholder">Architecture diagram — coming soon</p>
+            </div>
+            <p class="proj-diagram-cap">Network topology · Valuation pipeline · Risk heat map — Verdant Delights</p>
+
+          </div>
+        </div>
       </div>
 
       <div class="proj">
@@ -461,6 +578,15 @@
   // Reveal
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('v'); io.unobserve(e.target); } }), { threshold: .08 });
   document.querySelectorAll('.r').forEach(el => io.observe(el));
+
+  // Project accordion
+  function toggleProj(btn) {
+    const detail = btn.nextElementSibling;
+    const open = detail.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open);
+    btn.querySelector('span').textContent = open ? 'Hide Details' : 'View Details';
+  }
 </script>
 </body>
 </html>
