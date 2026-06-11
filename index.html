@@ -140,13 +140,6 @@
     .proj-n { font-family:var(--mono); font-size:.58rem; color:var(--faint); letter-spacing:.2em; margin-bottom:1.4rem; }
     .proj-name { font-family:var(--display); font-size:1.75rem; font-weight:400; color:var(--text); margin-bottom:.65rem; line-height:1.05; }
     .proj-desc { font-size:.86rem; line-height:1.72; color:var(--muted); margin-bottom:1.4rem; }
-    .tags { display:flex; flex-wrap:wrap; gap:.45rem; }
-    .t {
-      font-family:var(--mono); font-size:.58rem; letter-spacing:.12em; text-transform:uppercase;
-      padding:.28rem .7rem; border:1px solid var(--border); color:var(--faint);
-      transition:border-color .2s, color .2s;
-    }
-    .proj:hover .t { border-color:rgba(196,163,90,.3); color:var(--accent); }
     .proj.span2 { grid-column:1/-1; }
 
     /* ── Project accordion ── */
@@ -360,11 +353,6 @@
         <p class="proj-n">Academic — Bachelor's Level</p>
         <h3 class="proj-name">Cybersecurity Risk Assessment</h3>
         <p class="proj-desc">Built a weighted asset inventory and decision matrix to evaluate system criticality across a simulated multi-asset environment. Quantified risk using likelihood × impact scoring and developed cost-benefit mitigation recommendations aligned with industry standards.</p>
-        <div class="tags">
-          <span class="t">Risk Assessment</span><span class="t">Asset Inventory</span>
-          <span class="t">Likelihood × Impact</span><span class="t">Mitigation Planning</span>
-        </div>
-
         <button class="proj-toggle" aria-expanded="false" onclick="toggleProj(this)">
           <span>View Details</span>
           <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.6">
@@ -418,20 +406,12 @@
         <p class="proj-n">Academic — Master's Level</p>
         <h3 class="proj-name">Enterprise Risk Management</h3>
         <p class="proj-desc">Conducted asset-threat-vulnerability assessments using Clearwater IRM|Pro, producing residual risk scores to inform control selection across a simulated enterprise environment. Applied NIST risk assessment methodology to quantify inherent vs. residual risk and develop prioritized mitigation plans with documented feasibility and effectiveness ratings.</p>
-        <div class="tags">
-          <span class="t">NIST</span><span class="t">Clearwater IRM|Pro</span>
-          <span class="t">Residual Risk</span><span class="t">Control Selection</span>
-        </div>
       </div>
 
       <div class="proj span2">
         <p class="proj-n">Personal Project</p>
         <h3 class="proj-name">AIS-OS</h3>
         <p class="proj-desc">A personal AI Operating System built on top of Claude Code — a deeply layered system of skills, agents, workflows, and MCP integrations woven into every layer of daily life. From email triage to calendar management to decision logging, every repeatable task has been mapped, evaluated, and automated. It started as an experiment in efficiency and became an obsession: a living system that gets smarter the more it's used.</p>
-        <div class="tags">
-          <span class="t">Claude Code</span><span class="t">MCP</span>
-          <span class="t">Automation</span><span class="t">Node.js</span><span class="t">Notion</span>
-        </div>
       </div>
 
     </div>
