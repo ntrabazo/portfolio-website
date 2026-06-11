@@ -133,7 +133,7 @@
     }
     .proj::before {
       content:''; position:absolute; inset:0; background:var(--accent-dim);
-      opacity:0; transition:opacity .3s;
+      opacity:0; transition:opacity .3s; pointer-events:none;
     }
     .proj:hover { background: var(--s1); }
     .proj:hover::before { opacity:1; }
@@ -194,22 +194,6 @@
       color:var(--text); margin-bottom:.45rem; line-height:1.1;
     }
     .proj-phase-d { font-size:.82rem; line-height:1.7; color:var(--muted); }
-
-    .proj-diagram-wrap {
-      border:1px solid var(--border); padding:2rem;
-      display:flex; align-items:center; justify-content:center;
-      min-height:120px; margin-top:.5rem;
-    }
-    .proj-diagram-placeholder {
-      font-family:var(--mono); font-size:.6rem; color:var(--faint);
-      letter-spacing:.18em; text-transform:uppercase; text-align:center;
-    }
-    .proj-diagram { width:100%; display:block; }
-    .proj-diagram-cap {
-      font-family:var(--mono); font-size:.58rem; color:var(--faint);
-      letter-spacing:.15em; text-transform:uppercase;
-      margin-top:.7rem; text-align:center;
-    }
 
     @media (max-width:768px) { .proj-phase-grid { grid-template-columns:1fr; } }
 
@@ -392,44 +376,39 @@
           <div class="proj-detail-inner">
 
             <p class="proj-overview">
-              A full-scope risk assessment for <strong>Verdant Delights</strong>, a simulated plant-based
-              food company. The environment consisted of 10 critical assets across two server racks, all
-              running Windows Server 2012 (end-of-life) with no security policies, no trained IT staff,
-              and no incident or disaster recovery plans in place.
+              A full-scope risk assessment conducted for a simulated small business running on legacy
+              infrastructure with no existing security policies, trained IT staff, or incident response
+              planning. The goal was to move from a completely unstructured environment to a prioritized,
+              defensible security posture.
             </p>
 
             <div class="proj-phase-grid">
 
               <div class="proj-phase">
-                <p class="proj-phase-n">Phase 01 —</p>
+                <p class="proj-phase-n">Phase 01</p>
                 <p class="proj-phase-t">Asset Inventory</p>
-                <p class="proj-phase-d">Catalogued all 10 assets across both racks — documenting data classification (PII, PCI, CC), data owners, RTO/RPO requirements, and data flow paths. The ERP system stood out immediately: internet-facing, handling live customer payment data, 1-hour RTO.</p>
+                <p class="proj-phase-d">Catalogued each asset in the environment, documenting data classification, ownership, usage patterns, and recovery requirements. Established a clear baseline of what existed, what it handled, and what depended on it.</p>
               </div>
 
               <div class="proj-phase">
-                <p class="proj-phase-n">Phase 02 —</p>
+                <p class="proj-phase-n">Phase 02</p>
                 <p class="proj-phase-t">Asset Valuation Matrix</p>
-                <p class="proj-phase-d">Built a weighted scoring model using four business-aligned criteria: Operational Dependency (0.30), Direct Revenue Impact (0.30), Reputational Impact (0.30), and Legal Exposure (0.10). Each weight was justified against Verdant Delights' profile as a consumer brand with modest compliance obligations.</p>
+                <p class="proj-phase-d">Built a weighted scoring model to rank assets by business importance. Criteria were selected and justified to reflect the organization's profile as a small consumer brand, balancing operational continuity, revenue impact, legal exposure, and reputational risk.</p>
               </div>
 
               <div class="proj-phase">
-                <p class="proj-phase-n">Phase 03 —</p>
+                <p class="proj-phase-n">Phase 03</p>
                 <p class="proj-phase-t">Risk Determination</p>
-                <p class="proj-phase-d">Applied a Likelihood × Impact framework to each asset. Key environment-wide vulnerabilities: EOL operating systems, zero network segmentation, no MFA, no employee security training, no IR/DR plan. ERP scored L4 × I5 — the highest risk in the environment.</p>
+                <p class="proj-phase-d">Applied a likelihood-impact framework to score each asset's exposure. Identified environment-wide weaknesses including legacy software, lack of network segmentation, no multi-factor authentication, and no employee security training.</p>
               </div>
 
               <div class="proj-phase">
-                <p class="proj-phase-n">Phase 04 —</p>
+                <p class="proj-phase-n">Phase 04</p>
                 <p class="proj-phase-t">Risk Response</p>
-                <p class="proj-phase-d">Designed per-asset mitigations within realistic SMB budget constraints: OS upgrades, MFA enforcement, VLAN segmentation for ERP and Distribution, tiered admin RBAC, immutable backups, and a quarterly phishing simulation program. Projected ERP risk reduced from 20 to 12 post-treatment.</p>
+                <p class="proj-phase-d">Developed per-asset mitigation recommendations scaled to a realistic small business budget. Proposals covered infrastructure modernization, access control improvements, network segmentation, backup hardening, and a structured employee training program.</p>
               </div>
 
             </div>
-
-            <div class="proj-diagram-wrap">
-              <p class="proj-diagram-placeholder">Architecture diagram — coming soon</p>
-            </div>
-            <p class="proj-diagram-cap">Network topology · Valuation pipeline · Risk heat map — Verdant Delights</p>
 
           </div>
         </div>
