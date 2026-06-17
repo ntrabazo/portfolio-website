@@ -1,5 +1,12 @@
 # CLAUDE.md — Frontend Website Rules
 
+## Project & Deployment
+- **Live site:** https://nicolastrabazo.com (also www). Host: **Cloudflare Pages**, project `testwebsite` (direct-upload), subdomain `testwebsite-9km.pages.dev`. Account `e9b171447f5da7d401cb27b03dee5de2`, zone `dd4cd5185b55fee164c5f48be392e140`.
+- **Deploy (Claude-driven, not git auto-deploy):** stage public assets (`index.html` + `NicolasTrabazoResume5_29.pdf`) into a clean dir, then:
+  `CLOUDFLARE_API_TOKEN=<token> CLOUDFLARE_ACCOUNT_ID=e9b171447f5da7d401cb27b03dee5de2 npx -y wrangler@latest pages deploy <dir> --project-name=testwebsite --branch=main --commit-dirty=true`
+  Token is created in the Cloudflare dashboard (Account>Pages>Edit + Zone>DNS>Edit), used via env var, never committed. NOT hosted on Vercel anymore.
+- **Verify after deploy:** `curl -I https://nicolastrabazo.com` → 200 before declaring done.
+
 ## Always Do First
 - **Invoke the `frontend-design` skill** before writing any frontend code, every session, no exceptions.
 
