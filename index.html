@@ -419,6 +419,41 @@
         <p class="proj-n">Personal Project</p>
         <h3 class="proj-name">AIS-OS</h3>
         <p class="proj-desc">A personal AI Operating System built on top of Claude Code: a deeply layered system of skills, agents, workflows, and MCP integrations woven into every layer of daily life. From email triage to calendar management to decision logging, every repeatable task has been mapped, evaluated, and automated. It started as an experiment in efficiency and became an obsession: a living system that gets smarter the more it's used.</p>
+        <button class="proj-toggle" aria-expanded="false" onclick="toggleProj(this)">
+          <span>View Details</span>
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.6">
+            <polyline points="1.5,3.5 5.5,7.5 9.5,3.5"/>
+          </svg>
+        </button>
+        <div class="proj-detail" role="region">
+          <div class="proj-detail-inner">
+            <p class="proj-overview">A personal AI operating system built on Claude Code: persistent context, modular automation, and integrated tooling designed to reduce context-switching and compound over time. Built as a real production system, used daily.</p>
+            <div class="proj-phase-grid">
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 01</p>
+                <p class="proj-phase-t">Memory Architecture</p>
+                <p class="proj-phase-d">Built a structured, tiered memory system that gives the AI continuity across sessions. Context is routed by topic, auto-loaded each conversation, and written in-session so future conversations start with full awareness.</p>
+              </div>
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 02</p>
+                <p class="proj-phase-t">Skills &amp; Agents</p>
+                <p class="proj-phase-d">Developed a library of reusable slash commands for recurring workflows: daily briefings, cert prep, security reviews, resume tailoring, and more. Specialized sub-agents handle isolated tasks with scoped tools and permissions.</p>
+              </div>
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 03</p>
+                <p class="proj-phase-t">Hook-Driven Triggers</p>
+                <p class="proj-phase-d">Configured event-based hooks that execute automatically around AI interactions, routing prompts to relevant context, enforcing behavioral rules, and triggering downstream scripts. Patterns that previously required manual prompting now run without asking.</p>
+              </div>
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 04</p>
+                <p class="proj-phase-t">System Integrations</p>
+                <p class="proj-phase-d">Wired together calendar, email, project management, deployment pipelines, and domain hosting through a single interface. Cross-platform tasks that previously required switching across tabs complete in one conversation.</p>
+              </div>
+            </div>
+            <!-- AIOS_DIAGRAM_PLACEHOLDER -->
+            <div id="aios-diagram"></div>
+          </div>
+        </div>
       </div>
 
     </div>

@@ -1,0 +1,263 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://excalidraw.com",
+  "elements": [
+    {
+      "id": "banner",
+      "type": "rectangle",
+      "x": 30, "y": 30, "width": 860, "height": 140,
+      "angle": 0,
+      "strokeColor": "#c4a35a",
+      "backgroundColor": "#1a1a20",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false
+    },
+    {
+      "id": "banner-title",
+      "type": "text",
+      "x": 52, "y": 48, "width": 820, "height": 30,
+      "angle": 0,
+      "strokeColor": "#c4a35a",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "text": "Personal AI Operating System",
+      "fontSize": 24, "fontFamily": 1, "textAlign": "left", "verticalAlign": "top",
+      "containerId": null, "originalText": "Personal AI Operating System", "lineHeight": 1.25
+    },
+    {
+      "id": "banner-label",
+      "type": "text",
+      "x": 52, "y": 86, "width": 820, "height": 15,
+      "angle": 0,
+      "strokeColor": "#888899",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "text": "Built on Claude Code  ·  Personal Project",
+      "fontSize": 12, "fontFamily": 1, "textAlign": "left", "verticalAlign": "top",
+      "containerId": null, "originalText": "Built on Claude Code  ·  Personal Project", "lineHeight": 1.25
+    },
+    {
+      "id": "banner-body",
+      "type": "text",
+      "x": 52, "y": 108, "width": 820, "height": 50,
+      "angle": 0,
+      "strokeColor": "#e5e1d6",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "text": "A modular, self-improving system layered on Claude Code: persistent memory, custom skills,\nautomated triggers, and deep tool integrations. Designed for real daily use, not demos.",
+      "fontSize": 13, "fontFamily": 1, "textAlign": "left", "verticalAlign": "top",
+      "containerId": null, "originalText": "A modular, self-improving system layered on Claude Code: persistent memory, custom skills,\nautomated triggers, and deep tool integrations. Designed for real daily use, not demos.", "lineHeight": 1.25
+    },
+
+    {
+      "id": "card1",
+      "type": "rectangle",
+      "x": 30, "y": 195, "width": 415, "height": 175,
+      "angle": 0,
+      "strokeColor": "#2a2a35",
+      "backgroundColor": "#16161b",
+      "fillStyle": "solid", "strokeWidth": 2, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false
+    },
+    {
+      "id": "card1-phase",
+      "type": "text",
+      "x": 48, "y": 210, "width": 385, "height": 15,
+      "angle": 0, "strokeColor": "#c4a35a", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "text": "PHASE 01", "fontSize": 12, "fontFamily": 1, "textAlign": "left", "verticalAlign": "top",
+      "containerId": null, "originalText": "PHASE 01", "lineHeight": 1.25
+    },
+    {
+      "id": "card1-title",
+      "type": "text",
+      "x": 48, "y": 229, "width": 385, "height": 23,
+      "angle": 0, "strokeColor": "#e5e1d6", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "text": "Memory Architecture", "fontSize": 18, "fontFamily": 1, "textAlign": "left", "verticalAlign": "top",
+      "containerId": null, "originalText": "Memory Architecture", "lineHeight": 1.25
+    },
+    {
+      "id": "card1-div",
+      "type": "line",
+      "x": 48, "y": 259, "width": 379, "height": 0,
+      "angle": 0, "strokeColor": "#2a2a35", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "points": [[0,0],[379,0]], "lastCommittedPoint": null, "startBinding": null, "endBinding": null, "startArrowhead": null, "endArrowhead": null
+    },
+    {
+      "id": "card1-body",
+      "type": "text",
+      "x": 48, "y": 269, "width": 379, "height": 80,
+      "angle": 0, "strokeColor": "#888899", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "text": "Built a structured memory system that gives the AI\ncontinuity across sessions. Context routes by topic and\nloads automatically so every conversation starts\nwith full awareness.",
+      "fontSize": 13, "fontFamily": 1, "textAlign": "left", "verticalAlign": "top",
+      "containerId": null, "originalText": "Built a structured memory system that gives the AI\ncontinuity across sessions. Context routes by topic and\nloads automatically so every conversation starts\nwith full awareness.", "lineHeight": 1.25
+    },
+
+    {
+      "id": "card2",
+      "type": "rectangle",
+      "x": 465, "y": 195, "width": 415, "height": 175,
+      "angle": 0, "strokeColor": "#2a2a35", "backgroundColor": "#16161b",
+      "fillStyle": "solid", "strokeWidth": 2, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false
+    },
+    {
+      "id": "card2-phase",
+      "type": "text",
+      "x": 483, "y": 210, "width": 385, "height": 15,
+      "angle": 0, "strokeColor": "#c4a35a", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "text": "PHASE 02", "fontSize": 12, "fontFamily": 1, "textAlign": "left", "verticalAlign": "top",
+      "containerId": null, "originalText": "PHASE 02", "lineHeight": 1.25
+    },
+    {
+      "id": "card2-title",
+      "type": "text",
+      "x": 483, "y": 229, "width": 385, "height": 23,
+      "angle": 0, "strokeColor": "#e5e1d6", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "text": "Skills & Agents", "fontSize": 18, "fontFamily": 1, "textAlign": "left", "verticalAlign": "top",
+      "containerId": null, "originalText": "Skills & Agents", "lineHeight": 1.25
+    },
+    {
+      "id": "card2-div",
+      "type": "line",
+      "x": 483, "y": 259, "width": 379, "height": 0,
+      "angle": 0, "strokeColor": "#2a2a35", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "points": [[0,0],[379,0]], "lastCommittedPoint": null, "startBinding": null, "endBinding": null, "startArrowhead": null, "endArrowhead": null
+    },
+    {
+      "id": "card2-body",
+      "type": "text",
+      "x": 483, "y": 269, "width": 379, "height": 80,
+      "angle": 0, "strokeColor": "#888899", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "text": "A library of reusable slash commands for recurring tasks:\ndaily briefings, security reviews, cert prep, and more.\nSub-agents handle isolated workflows with\nscoped tools and permissions.",
+      "fontSize": 13, "fontFamily": 1, "textAlign": "left", "verticalAlign": "top",
+      "containerId": null, "originalText": "A library of reusable slash commands for recurring tasks:\ndaily briefings, security reviews, cert prep, and more.\nSub-agents handle isolated workflows with\nscoped tools and permissions.", "lineHeight": 1.25
+    },
+
+    {
+      "id": "card3",
+      "type": "rectangle",
+      "x": 30, "y": 390, "width": 415, "height": 175,
+      "angle": 0, "strokeColor": "#2a2a35", "backgroundColor": "#16161b",
+      "fillStyle": "solid", "strokeWidth": 2, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false
+    },
+    {
+      "id": "card3-phase",
+      "type": "text",
+      "x": 48, "y": 405, "width": 385, "height": 15,
+      "angle": 0, "strokeColor": "#c4a35a", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "text": "PHASE 03", "fontSize": 12, "fontFamily": 1, "textAlign": "left", "verticalAlign": "top",
+      "containerId": null, "originalText": "PHASE 03", "lineHeight": 1.25
+    },
+    {
+      "id": "card3-title",
+      "type": "text",
+      "x": 48, "y": 424, "width": 385, "height": 23,
+      "angle": 0, "strokeColor": "#e5e1d6", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "text": "Hook-Driven Triggers", "fontSize": 18, "fontFamily": 1, "textAlign": "left", "verticalAlign": "top",
+      "containerId": null, "originalText": "Hook-Driven Triggers", "lineHeight": 1.25
+    },
+    {
+      "id": "card3-div",
+      "type": "line",
+      "x": 48, "y": 454, "width": 379, "height": 0,
+      "angle": 0, "strokeColor": "#2a2a35", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "points": [[0,0],[379,0]], "lastCommittedPoint": null, "startBinding": null, "endBinding": null, "startArrowhead": null, "endArrowhead": null
+    },
+    {
+      "id": "card3-body",
+      "type": "text",
+      "x": 48, "y": 464, "width": 379, "height": 80,
+      "angle": 0, "strokeColor": "#888899", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "text": "Event-based hooks fire automatically around AI\ninteractions, routing prompts to context and triggering\ndownstream scripts. Patterns that required manual\nprompting now run without asking.",
+      "fontSize": 13, "fontFamily": 1, "textAlign": "left", "verticalAlign": "top",
+      "containerId": null, "originalText": "Event-based hooks fire automatically around AI\ninteractions, routing prompts to context and triggering\ndownstream scripts. Patterns that required manual\nprompting now run without asking.", "lineHeight": 1.25
+    },
+
+    {
+      "id": "card4",
+      "type": "rectangle",
+      "x": 465, "y": 390, "width": 415, "height": 175,
+      "angle": 0, "strokeColor": "#2a2a35", "backgroundColor": "#16161b",
+      "fillStyle": "solid", "strokeWidth": 2, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false
+    },
+    {
+      "id": "card4-phase",
+      "type": "text",
+      "x": 483, "y": 405, "width": 385, "height": 15,
+      "angle": 0, "strokeColor": "#c4a35a", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "text": "PHASE 04", "fontSize": 12, "fontFamily": 1, "textAlign": "left", "verticalAlign": "top",
+      "containerId": null, "originalText": "PHASE 04", "lineHeight": 1.25
+    },
+    {
+      "id": "card4-title",
+      "type": "text",
+      "x": 483, "y": 424, "width": 385, "height": 23,
+      "angle": 0, "strokeColor": "#e5e1d6", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "text": "System Integrations", "fontSize": 18, "fontFamily": 1, "textAlign": "left", "verticalAlign": "top",
+      "containerId": null, "originalText": "System Integrations", "lineHeight": 1.25
+    },
+    {
+      "id": "card4-div",
+      "type": "line",
+      "x": 483, "y": 454, "width": 379, "height": 0,
+      "angle": 0, "strokeColor": "#2a2a35", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "points": [[0,0],[379,0]], "lastCommittedPoint": null, "startBinding": null, "endBinding": null, "startArrowhead": null, "endArrowhead": null
+    },
+    {
+      "id": "card4-body",
+      "type": "text",
+      "x": 483, "y": 464, "width": 379, "height": 80,
+      "angle": 0, "strokeColor": "#888899", "backgroundColor": "transparent",
+      "fillStyle": "solid", "strokeWidth": 1, "strokeStyle": "solid", "roughness": 1, "opacity": 100,
+      "groupIds": [], "frameId": null, "roundness": null, "boundElements": [], "updated": 1, "link": null, "locked": false,
+      "text": "Calendar, email, project management, deployment,\nand domain hosting wired into one interface.\nCross-platform tasks that once required tab-switching\ncomplete in a single conversation.",
+      "fontSize": 13, "fontFamily": 1, "textAlign": "left", "verticalAlign": "top",
+      "containerId": null, "originalText": "Calendar, email, project management, deployment,\nand domain hosting wired into one interface.\nCross-platform tasks that once required tab-switching\ncomplete in a single conversation.", "lineHeight": 1.25
+    }
+  ],
+  "appState": {
+    "gridSize": null,
+    "viewBackgroundColor": "#0b0b0f"
+  },
+  "files": {}
+}
