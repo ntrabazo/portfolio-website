@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nicolas Trabazo — Cybersecurity & AI Automation</title>
-  <meta name="description" content="Nicolas Trabazo — Cybersecurity student at KSU pursuing concurrent B.S. and M.S. degrees. Security+, A+. Building at the intersection of security and AI automation.">
-  <meta property="og:title" content="Nicolas Trabazo — Cybersecurity & AI Automation">
-  <meta property="og:description" content="Security+, A+ certified. Double Owl at KSU. Building TITAN — an 8-layer threat intelligence pipeline. Open to opportunities in cybersecurity and security engineering.">
+  <title>Nicolas Trabazo — Cybersecurity & Applied AI</title>
+  <meta name="description" content="Nicolas Trabazo — Cybersecurity student at KSU pursuing concurrent B.S. and M.S. degrees. AZ-900, Security+, A+ certified. Working at the intersection of cloud security and applied AI.">
+  <meta property="og:title" content="Nicolas Trabazo — Cybersecurity & Applied AI">
+  <meta property="og:description" content="AZ-900, Security+, A+ certified. Double Owl at KSU. Working at the intersection of cloud security and applied AI. Open to opportunities in cybersecurity and security engineering.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://nicolastrabazo.com">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Nicolas Trabazo — Cybersecurity & AI Automation">
-  <meta name="twitter:description" content="Security+, A+ certified. Double Owl at KSU. Building TITAN — an 8-layer threat intelligence pipeline.">
+  <meta name="twitter:title" content="Nicolas Trabazo — Cybersecurity & Applied AI">
+  <meta name="twitter:description" content="AZ-900, Security+, A+ certified. Double Owl at KSU. Working at the intersection of cloud security and applied AI.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -77,37 +77,52 @@
     .n-links a { font-family:var(--mono); font-size:.66rem; color:var(--muted); text-decoration:none; letter-spacing:.14em; text-transform:uppercase; transition:color .2s; }
     .n-links a:hover { color: var(--text); }
 
-    /* ── Hero ── */
+    /* ── Hero / Title Card ── */
     .hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 0 3rem 5.5rem;
+      min-height: auto;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 11rem 3rem 5rem;
       position: relative; overflow: hidden;
     }
     .hero-glow {
       position: absolute; inset: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 65% 55% at 72% 25%, rgba(196,163,90,.055) 0%, transparent 60%),
-        radial-gradient(ellipse 45% 65% at 8%  85%, rgba(60,80,140,.04) 0%, transparent 55%);
+        radial-gradient(ellipse 55% 50% at 78% 18%, rgba(196,163,90,.05) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 60% at 6%  92%, rgba(60,80,140,.035) 0%, transparent 55%);
+    }
+    .hero-inner { max-width: 1160px; margin: 0 auto; width: 100%; position: relative; }
+    .h-kicker {
+      font-family: var(--mono); font-size: .64rem; color: var(--accent);
+      letter-spacing: .26em; text-transform: uppercase; margin-bottom: 1.6rem;
+      opacity:0; transform:translateY(8px); animation: up .8s ease .1s forwards;
     }
     .h-name {
-      font-family: var(--display); font-size: clamp(4rem,11.5vw,10.5rem);
-      font-weight: 300; line-height: .92; letter-spacing: -.015em; color: var(--text);
+      font-family: var(--display); font-size: clamp(3rem,8vw,6.5rem);
+      font-weight: 300; line-height: .95; letter-spacing: -.015em; color: var(--text);
       opacity:0; transform:translateY(18px); animation: up 1s ease .2s forwards;
     }
     .h-name em { font-style:italic; color:var(--accent); }
     .h-sub {
-      margin-top: 2.2rem; display:flex; align-items:center; gap:1.8rem;
-      opacity:0; transform:translateY(8px); animation: up .8s ease .6s forwards;
+      margin-top: 1.8rem; display:flex; align-items:center; gap:1.4rem;
+      opacity:0; transform:translateY(8px); animation: up .8s ease .5s forwards;
     }
     .h-rule { width:52px; height:1px; background:var(--accent); opacity:.38; flex-shrink:0; }
-    .h-tag { font-family:var(--body); font-size:.98rem; font-weight:300; color:var(--muted); letter-spacing:.03em; }
-    .h-scroll {
-      position:absolute; bottom:2.2rem; right:3rem;
-      font-family:var(--mono); font-size:.6rem; color:var(--faint); letter-spacing:.18em; text-transform:uppercase;
-      writing-mode:vertical-rl;
-      opacity:0; animation: fadein 1s ease 1.2s forwards;
+    .h-tag { font-family:var(--body); font-size:1.02rem; font-weight:300; color:var(--muted); letter-spacing:.02em; }
+
+    /* ── Hero stats strip ── */
+    .h-stats {
+      margin-top: 3.4rem;
+      display:grid; grid-template-columns:repeat(4,1fr);
+      border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+      opacity:0; transform:translateY(10px); animation: up .9s ease .8s forwards;
     }
+    .h-stat {
+      padding:1.5rem 1.6rem 1.5rem 0;
+      border-right:1px solid var(--border);
+    }
+    .h-stat:last-child { border-right:none; }
+    .h-stat-l { font-family:var(--mono); font-size:.58rem; color:var(--faint); letter-spacing:.16em; text-transform:uppercase; margin-bottom:.55rem; }
+    .h-stat-v { font-family:var(--display); font-size:1.18rem; font-style:italic; color:var(--text); line-height:1.2; }
 
     /* ── Sections ── */
     .wrap { max-width:1160px; margin:0 auto; padding:8rem 3rem; }
@@ -125,13 +140,10 @@
     }
 
     /* ── About ── */
-    .about-g { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
-    .about-p { font-size:1rem; line-height:1.85; color:var(--muted); margin-bottom:1.1rem; }
+    .about-col { max-width:760px; }
+    .about-p { font-size:1.05rem; line-height:1.9; color:var(--muted); margin-bottom:1.3rem; }
+    .about-p:last-child { margin-bottom:0; }
     .about-p strong { color:var(--text); font-weight:500; }
-    .stat { padding:1.4rem 0; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:baseline; }
-    .stat:first-child { border-top:1px solid var(--border); }
-    .stat-l { font-family:var(--mono); font-size:.62rem; color:var(--faint); letter-spacing:.15em; text-transform:uppercase; }
-    .stat-v { font-family:var(--display); font-size:1.05rem; font-style:italic; color:var(--text); }
 
     /* ── Projects ── */
     .proj-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5px; background:var(--border); }
@@ -213,40 +225,6 @@
       color:var(--accent); padding:.3rem .65rem; border:1px solid rgba(196,163,90,.28);
     }
 
-    /* ── In Development ── */
-    .dev-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5px; background:var(--border); }
-    .dev-item {
-      background:var(--bg); padding:2.4rem; position:relative; overflow:hidden;
-      transition:background .3s;
-    }
-    .dev-item::before {
-      content:''; position:absolute; inset:0; background:var(--accent-dim);
-      opacity:0; transition:opacity .3s;
-    }
-    .dev-item:hover { background:var(--s1); }
-    .dev-item:hover::before { opacity:1; }
-    .dev-label { font-family:var(--mono); font-size:.58rem; color:var(--accent); letter-spacing:.18em; text-transform:uppercase; margin-bottom:1rem; }
-    .dev-name { font-family:var(--display); font-size:2rem; font-weight:400; color:var(--text); margin-bottom:.6rem; line-height:1; }
-    .dev-desc { font-size:.86rem; line-height:1.72; color:var(--muted); }
-
-    /* ── Goals ── */
-    .goal {
-      display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:2rem;
-      padding:1.9rem 0; border-bottom:1px solid var(--border);
-      position:relative; overflow:hidden;
-      transition:padding-left .25s ease;
-    }
-    .goal:first-child { border-top:1px solid var(--border); }
-    .goal::before {
-      content:''; position:absolute; left:0; top:0; bottom:0; width:2px;
-      background:var(--accent); transform:scaleY(0); transition:transform .3s ease; transform-origin:bottom;
-    }
-    .goal:hover { padding-left:1rem; }
-    .goal:hover::before { transform:scaleY(1); }
-    .goal-n { font-family:var(--mono); font-size:.62rem; color:var(--faint); letter-spacing:.15em; min-width:2rem; }
-    .goal-t { font-family:var(--display); font-size:1.55rem; font-weight:300; color:var(--text); }
-    .goal-date { font-family:var(--mono); font-size:.6rem; color:var(--faint); letter-spacing:.1em; text-align:right; }
-
     /* ── Contact ── */
     .contact-g { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:end; }
     .contact-h { font-family:var(--display); font-size:clamp(3rem,5.5vw,5rem); font-weight:300; line-height:.95; }
@@ -281,17 +259,16 @@
     @media (max-width:768px) {
       nav { padding:1.2rem 1.4rem; }
       .n-links { display:none; }
-      .hero { padding:0 1.4rem 4rem; }
+      .hero { padding:8rem 1.4rem 3.5rem; }
+      .h-stats { grid-template-columns:1fr 1fr; }
+      .h-stat { padding:1.2rem 1rem 1.2rem 0; }
+      .h-stat:nth-child(2) { border-right:none; }
+      .h-stat:nth-child(1), .h-stat:nth-child(2) { border-bottom:1px solid var(--border); }
       .wrap { padding:5rem 1.4rem; }
-      .about-g  { grid-template-columns:1fr; gap:2.5rem; }
       .proj-grid{ grid-template-columns:1fr; }
       .cert-grid{ grid-template-columns:1fr; }
-      .dev-grid { grid-template-columns:1fr; }
       .contact-g{ grid-template-columns:1fr; gap:3rem; }
       footer    { flex-direction:column; gap:.5rem; text-align:center; }
-      .h-scroll { display:none; }
-      .goal     { grid-template-columns:auto 1fr; }
-      .goal-date{ display:none; }
     }
   </style>
 </head>
@@ -306,22 +283,23 @@
   <ul class="n-links">
     <li><a href="#about">About</a></li>
     <li><a href="#work">Projects</a></li>
-    <li><a href="#building">Active Projects</a></li>
-    <li><a href="#goals">What's Next</a></li>
+    <li><a href="#certs">Certifications</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </nav>
 
-<!-- Hero -->
-<div class="hero">
+<!-- Hero / Title Card -->
+<header class="hero">
   <div class="hero-glow"></div>
-  <h1 class="h-name">Cybersecurity<br><em>&amp; AI</em><br>Automation</h1>
-  <div class="h-sub">
-    <div class="h-rule"></div>
-    <span class="h-tag">Bridging the gap between efficient AI systems and secure infrastructure.</span>
+  <div class="hero-inner">
+    <p class="h-kicker">Cybersecurity · Applied AI</p>
+    <h1 class="h-name">Nicolas <em>Trabazo</em></h1>
+    <div class="h-sub">
+      <div class="h-rule"></div>
+      <span class="h-tag">Cybersecurity student working at the intersection of cloud security and applied AI.</span>
+    </div>
   </div>
-  <span class="h-scroll">Scroll to explore</span>
-</div>
+</header>
 
 <!-- About -->
 <div class="wrap" id="about">
@@ -329,18 +307,9 @@
     <span class="sec-n">01 —</span>
     <h2 class="sec-t">About <em>Me</em></h2>
   </div>
-  <div class="about-g">
-    <div class="r">
-      <p class="about-p">I'm a <strong>Cybersecurity student at Kennesaw State University</strong> pursuing concurrent B.S. and M.S. degrees through the Double Owl accelerated pathway. Already enrolled in graduate-level coursework with a 3.61 GPA. My foundation is in GRC methodology and technical security tools: Linux, Splunk, Wireshark, and risk frameworks.</p>
-      <p class="about-p">As <strong>President of Theta Chi</strong>, the largest IFC chapter on campus, I lead strategic direction and daily operations, represent the chapter to university leadership and the national organization, and manage the executive board overseeing all committees and initiatives. I'm also a member of <strong>Order of Omega</strong>, selected among the top 3% of Greek-letter organization members at KSU for academic achievement, leadership, and service.</p>
-      <p class="about-p">I'm part of the next generation of security professionals who see AI not as a threat to security, but as its most powerful tool. I'm obsessed with efficiency: in systems, in workflows, in every process I touch. I'm actively building the skills to operate at the intersection of both fields.</p>
-    </div>
-    <div class="r">
-      <div class="stat"><span class="stat-l">Degree</span><span class="stat-v">B.S. + M.S. — Double Owl</span></div>
-      <div class="stat"><span class="stat-l">GPA</span><span class="stat-v">3.61</span></div>
-      <div class="stat"><span class="stat-l">Certifications</span><span class="stat-v">Security+, A+, Cisco</span></div>
-      <div class="stat"><span class="stat-l">Leadership</span><span class="stat-v">Theta Chi President</span></div>
-    </div>
+  <div class="about-col r">
+    <p class="about-p">I'm a <strong>cybersecurity student at Kennesaw State University</strong>, completing my B.S. and M.S. in cybersecurity concurrently through the Double Owl accelerated pathway and already enrolled in graduate-level coursework. My focus is the intersection of <strong>cloud security and applied AI</strong>, and how the two can reinforce each other. I'm CompTIA A+, Security+, and Microsoft AZ-900 certified, currently working toward AZ-104.</p>
+    <p class="about-p">Outside of coursework I serve as <strong>President of Theta Chi</strong>, the largest IFC chapter on campus, leading its strategic direction and daily operations and representing it to university leadership and the national organization. My goal is simple: bridge the gap between efficient AI systems and secure infrastructure.</p>
   </div>
 </div>
 
@@ -351,9 +320,7 @@
     <h2 class="sec-t"><em>Projects</em></h2>
   </div>
 
-  <!-- Projects -->
-  <div class="r" style="margin-bottom:4rem;">
-    <p class="sub-label">Projects</p>
+  <div class="r">
     <div class="proj-grid">
 
       <div class="proj">
@@ -417,8 +384,8 @@
 
       <div class="proj span2">
         <p class="proj-n">Personal Project</p>
-        <h3 class="proj-name">AIS-OS</h3>
-        <p class="proj-desc">A personal AI Operating System built on top of Claude Code: a deeply layered system of skills, agents, workflows, and MCP integrations woven into every layer of daily life. From email triage to calendar management to decision logging, every repeatable task has been mapped, evaluated, and automated. It started as an experiment in efficiency and became an obsession: a living system that gets smarter the more it's used.</p>
+        <h3 class="proj-name">AI OS</h3>
+        <p class="proj-desc">A personal AI operating system built on top of Claude Code: a layered system of agents, skills, workflows, and MCP integrations, backed by a persistent memory layer that gets smarter with use. Engineered for real productivity over demos, with automated triggers handling everything from a daily email and calendar brief to recurring scheduled tasks woven into daily life.</p>
         <button class="proj-toggle" aria-expanded="false" onclick="toggleProj(this)">
           <span>View Details</span>
           <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.6">
@@ -427,18 +394,83 @@
         </button>
         <div class="proj-detail" role="region">
           <div class="proj-detail-inner">
-            <img src="aios-diagram.svg" alt="AIS-OS architecture diagram" style="width:100%;border-radius:8px;">
+            <img src="aios-diagram.svg" alt="AI OS architecture diagram" style="width:100%;border-radius:8px;">
+          </div>
+        </div>
+      </div>
+
+      <div class="proj span2">
+        <p class="proj-n">Personal Project</p>
+        <h3 class="proj-name">Murmur</h3>
+        <p class="proj-desc">A local voice-dictation tool for Windows that I designed and built end to end. The point wasn't the app itself, it was the engineering: chaining an on-device speech model into a language-model cleanup stage, wrapping it in a self-correcting learning loop, and solving the systems problems underneath, from real-time concurrency to safe text injection into any application without ever corrupting the clipboard.</p>
+        <button class="proj-toggle" aria-expanded="false" onclick="toggleProj(this)">
+          <span>View Details</span>
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.6">
+            <polyline points="1.5,3.5 5.5,7.5 9.5,3.5"/>
+          </svg>
+        </button>
+
+        <div class="proj-detail" role="region">
+          <div class="proj-detail-inner">
+
+            <p class="proj-overview">
+              An end-to-end audio-to-text system I architected and implemented myself, built to prove out a
+              hard idea: a fully local dictation pipeline that gets better the more you use it. Every design
+              decision favored privacy, responsiveness, and self-improvement over the convenience of an
+              off-the-shelf cloud service.
+            </p>
+
+            <div class="proj-phase-grid">
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 01</p>
+                <p class="proj-phase-t">Pipeline Architecture</p>
+                <p class="proj-phase-d">Composed several independent stages, from capture to on-device transcription to language-model cleanup to injection, into one real-time system. I made deliberate speed-versus-accuracy tradeoffs at each stage and chose local models so nothing ever leaves the machine.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 02</p>
+                <p class="proj-phase-t">A Self-Correcting Learning Loop</p>
+                <p class="proj-phase-d">The hardest and most original part. I designed the mechanism that lets the tool learn from its own mistakes: it detects when I fix a word, learns the correction automatically, and feeds that knowledge back into future transcriptions so accuracy on my own vocabulary compounds over time.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 03</p>
+                <p class="proj-phase-t">Systems Engineering</p>
+                <p class="proj-phase-d">Solved the low-level problems that make a tool like this usable in practice. A single-writer concurrency model keeps the learning data consistent across background threads, focus-aware injection behaves correctly when you switch windows mid-sentence, and full clipboard preservation guarantees it never overwrites what you had copied.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 04</p>
+                <p class="proj-phase-t">AI-Assisted Development Workflow</p>
+                <p class="proj-phase-d">Directed the build through an agentic workflow, with an implementation agent writing each component and an independent reviewer agent auditing it against the plan. The loop caught real defects, including race conditions and data-integrity bugs, before they ever shipped. The skill on display is orchestrating AI as an engineering multiplier, not just generating code.</p>
+              </div>
+
+            </div>
+
           </div>
         </div>
       </div>
 
     </div>
   </div>
+</div>
 
-  <!-- Certifications -->
+<!-- Certifications -->
+<div class="wrap" id="certs" style="padding-top:0">
+  <div class="sec-head r">
+    <span class="sec-n">03 —</span>
+    <h2 class="sec-t"><em>Certifications</em></h2>
+  </div>
   <div class="r">
-    <p class="sub-label">Certifications</p>
     <div class="cert-grid">
+      <div class="cert">
+        <div>
+          <div class="cert-name">AZ-900</div>
+          <div class="cert-issuer">Microsoft Azure Fundamentals</div>
+        </div>
+        <span class="cert-badge">Earned</span>
+      </div>
       <div class="cert">
         <div>
           <div class="cert-name">Security+</div>
@@ -453,7 +485,7 @@
         </div>
         <span class="cert-badge">Earned</span>
       </div>
-      <div class="cert" style="grid-column:1/-1">
+      <div class="cert">
         <div>
           <div class="cert-name">Intro to Cybersecurity</div>
           <div class="cert-issuer">Cisco Networking Academy</div>
@@ -464,43 +496,6 @@
   </div>
 </div>
 
-<!-- In Development -->
-<div class="wrap" id="building" style="padding-top:0">
-  <div class="sec-head r">
-    <span class="sec-n">03 —</span>
-    <h2 class="sec-t">Active <em>Projects</em></h2>
-  </div>
-  <div class="dev-grid r">
-
-    <div class="dev-item">
-      <p class="dev-label">Active Build</p>
-      <h3 class="dev-name">TITAN</h3>
-      <p class="dev-desc">Threat Intelligence &amp; Triage Automation Network. An 8-layer security pipeline that ingests threat feeds, classifies indicators of compromise, and automates triage decisions. Designed to reduce analyst workload on routine signal processing. Target: ship as open source.</p>
-    </div>
-
-    <div class="dev-item">
-      <p class="dev-label">Active Study</p>
-      <h3 class="dev-name">AZ-900 &amp; AZ-104</h3>
-      <p class="dev-desc">Working through Microsoft Azure fundamentals and administrator certification tracks. Building fluency in cloud infrastructure, identity, security, and governance. The foundation for cloud-native security work.</p>
-    </div>
-
-  </div>
-</div>
-
-<!-- Goals -->
-<div class="wrap" id="goals" style="padding-top:0">
-  <div class="sec-head r">
-    <span class="sec-n">04 —</span>
-    <h2 class="sec-t">What's <em>Next</em></h2>
-  </div>
-  <div>
-    <div class="goal r"><span class="goal-n">01</span><span class="goal-t">Earn AZ-900, AZ-104, and SC-500</span><span class="goal-date">2026</span></div>
-    <div class="goal r"><span class="goal-n">02</span><span class="goal-t">Complete TITAN and ship it open source</span><span class="goal-date">2026</span></div>
-    <div class="goal r"><span class="goal-n">03</span><span class="goal-t">Transfer to Georgia Tech for the master's</span><span class="goal-date">2026 – 2027</span></div>
-    <div class="goal r"><span class="goal-n">04</span><span class="goal-t">Become a Claude Code Campus Ambassador</span><span class="goal-date">Fall 2026</span></div>
-  </div>
-</div>
-
 <!-- Contact -->
 <div class="wrap" id="contact">
   <div class="contact-g">
@@ -508,7 +503,7 @@
       <h2 class="contact-h">Let's work<br><em>together.</em></h2>
     </div>
     <div class="r">
-      <a href="/NicolasTrabazoResume5_29.pdf" download="Nicolas-Trabazo-Resume.pdf" class="clink">
+      <a href="/NicolasTrabazoResume.pdf" download="Nicolas Trabazo Resume.pdf" class="clink">
         <span class="clink-l">Resume</span>
         <span class="clink-v">Download PDF</span>
         <span class="arr">↓</span>
@@ -516,11 +511,6 @@
       <a href="mailto:nicolastrabazo1@gmail.com" class="clink">
         <span class="clink-l">Email</span>
         <span class="clink-v">nicolastrabazo1@gmail.com</span>
-        <span class="arr">→</span>
-      </a>
-      <a href="https://github.com/ntrabazo" class="clink" target="_blank" rel="noopener">
-        <span class="clink-l">GitHub</span>
-        <span class="clink-v">ntrabazo</span>
         <span class="arr">→</span>
       </a>
       <a href="https://www.linkedin.com/in/nicolas-trabazo/" class="clink" target="_blank" rel="noopener">
