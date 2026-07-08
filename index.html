@@ -452,6 +452,59 @@
         </div>
       </div>
 
+      <div class="proj span2">
+        <p class="proj-n">Personal Project</p>
+        <h3 class="proj-name">Gatekeep</h3>
+        <p class="proj-desc">A security proxy that inspects every prompt before it reaches Anthropic's Claude API, built to solve a problem enterprises don't have a good answer to yet: employees can paste secrets and sensitive personal data into an AI chat tool with nobody watching and no record it happened. Dangerous content gets blocked outright. Sensitive personal data gets automatically redacted while the rest of the request still goes through. Every decision is logged for audit, without ever storing the sensitive text it caught.</p>
+        <button class="proj-toggle" aria-expanded="false" onclick="toggleProj(this)">
+          <span>View Details</span>
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.6">
+            <polyline points="1.5,3.5 5.5,7.5 9.5,3.5"/>
+          </svg>
+        </button>
+
+        <div class="proj-detail" role="region">
+          <div class="proj-detail-inner">
+
+            <p class="proj-overview">
+              A reverse proxy I designed and built end to end, sitting directly in the request path
+              between a client application and Anthropic's Claude API. Enterprises have no reliable
+              way to stop sensitive data from reaching an AI model, or to prove what was sent, and
+              this closes that gap automatically rather than relying on policy and hope.
+            </p>
+
+            <div class="proj-phase-grid">
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 01</p>
+                <p class="proj-phase-t">The Problem</p>
+                <p class="proj-phase-d">Every chatbot built on top of an LLM inherits the same blind spot: nothing stops an employee from pasting a password, a customer's Social Security number, or a signing key straight into a prompt, and nothing records that it happened. Data-loss prevention for the AI era has to happen in the request path itself, before the API ever sees it.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 02</p>
+                <p class="proj-phase-t">Detection Engineering</p>
+                <p class="proj-phase-d">Built a hybrid detection layer: hand-written pattern matching for known credential formats, a randomness-based fallback that catches secrets no pattern recognizes, and validated checks for personal data like Social Security numbers and card numbers, with an optional named-entity layer for names and locations regex alone can't see.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 03</p>
+                <p class="proj-phase-t">Policy &amp; Governance</p>
+                <p class="proj-phase-d">Every finding routes through a configurable policy engine: block outright, redact and continue, or allow, all defined in a single governance file rather than buried in code. Sensitive requests can even route to a different model automatically. Every decision writes to an audit trail recording what happened and why, never the sensitive text itself.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 04</p>
+                <p class="proj-phase-t">Proving It Works</p>
+                <p class="proj-phase-d">Validated the whole pipeline against a seeded adversarial test set designed to trip it up: real secrets, real personal-data formats, and deliberate traps like normal URLs, code snippets, and invalid-looking data meant to cause false alarms. Then ran it live against Claude with a standard API client to confirm the same behavior holds end to end, not just in a test harness.</p>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
