@@ -1,0 +1,25 @@
+# Local tooling / editor state
+.claude/
+.wrangler/
+.vscode/
+dist/
+
+# Dev-only artifacts (not part of the published site)
+temporary screenshots/
+*.preview.html
+screenshot.mjs
+
+# Source diagrams (not embedded in the site)
+*.excalidraw
+aios-diagram.svg
+cybr3300-diagram.svg
+
+# Superseded assets
+NicolasTrabazoResume5_29.pdf
+
+# Internal build notes
+CLAUDE.md
+
+# OS noise
+.DS_Store
+Thumbs.db

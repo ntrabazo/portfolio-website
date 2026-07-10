@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nicolas Trabazo — Cybersecurity & Applied AI</title>
+  <meta name="description" content="Nicolas Trabazo — Cybersecurity student at KSU pursuing concurrent B.S. and M.S. degrees. AZ-900, Security+, A+ certified. Working at the intersection of cloud security and applied AI.">
+  <meta property="og:title" content="Nicolas Trabazo — Cybersecurity & Applied AI">
+  <meta property="og:description" content="AZ-900, Security+, A+ certified. Double Owl at KSU. Working at the intersection of cloud security and applied AI. Open to opportunities in cybersecurity and security engineering.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nicolastrabazo.com">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Nicolas Trabazo — Cybersecurity & Applied AI">
+  <meta name="twitter:description" content="AZ-900, Security+, A+ certified. Double Owl at KSU. Working at the intersection of cloud security and applied AI.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0f'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='15' fill='%23c4a35a'%3ENT%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:         #0b0b0f;
+      --s1:         #111118;
+      --s2:         #17171f;
+      --border:     rgba(196,163,90,0.12);
+      --border-h:   rgba(196,163,90,0.3);
+      --accent:     #c4a35a;
+      --accent-dim: rgba(196,163,90,0.08);
+      --text:       #e5e1d6;
+      --muted:      #8e8880;
+      --faint:      #c4a35a;
+      --display:    'Cormorant', serif;
+      --mono:       'JetBrains Mono', monospace;
+      --body:       'Outfit', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      font-weight: 300;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    /* ── Grain ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.032;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ── Cursor ── */
+    #cur  { position:fixed; width:7px; height:7px; background:var(--accent); border-radius:50%; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); transition:width .15s,height .15s; }
+    #cur2 { position:fixed; width:30px; height:30px; border:1px solid rgba(196,163,90,.35); border-radius:50%; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .2s,height .2s,opacity .2s; }
+    body:has(a:hover) #cur  { width:11px; height:11px; }
+    body:has(a:hover) #cur2 { width:46px; height:46px; opacity:.5; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.4rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid transparent;
+      transition: background .3s, backdrop-filter .3s, border-color .3s;
+    }
+    nav.on { background: rgba(11,11,15,.82); backdrop-filter: blur(14px); border-color: var(--border); }
+    .n-logo { font-family: var(--mono); font-size: .7rem; color: var(--accent); letter-spacing: .18em; text-transform: uppercase; }
+    .n-links { display:flex; gap:2.5rem; list-style:none; }
+    .n-links a { font-family:var(--mono); font-size:.66rem; color:var(--muted); text-decoration:none; letter-spacing:.14em; text-transform:uppercase; transition:color .2s; }
+    .n-links a:hover { color: var(--text); }
+
+    /* ── Hero / Title Card ── */
+    .hero {
+      min-height: auto;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 11rem 3rem 5rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 55% 50% at 78% 18%, rgba(196,163,90,.05) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 60% at 6%  92%, rgba(60,80,140,.035) 0%, transparent 55%);
+    }
+    .hero-inner { max-width: 1160px; margin: 0 auto; width: 100%; position: relative; }
+    .h-kicker {
+      font-family: var(--mono); font-size: .64rem; color: var(--accent);
+      letter-spacing: .26em; text-transform: uppercase; margin-bottom: 1.6rem;
+      opacity:0; transform:translateY(8px); animation: up .8s ease .1s forwards;
+    }
+    .h-name {
+      font-family: var(--display); font-size: clamp(3rem,8vw,6.5rem);
+      font-weight: 300; line-height: .95; letter-spacing: -.015em; color: var(--text);
+      opacity:0; transform:translateY(18px); animation: up 1s ease .2s forwards;
+    }
+    .h-name em { font-style:italic; color:var(--accent); }
+    .h-sub {
+      margin-top: 1.8rem; display:flex; align-items:center; gap:1.4rem;
+      opacity:0; transform:translateY(8px); animation: up .8s ease .5s forwards;
+    }
+    .h-rule { width:52px; height:1px; background:var(--accent); opacity:.38; flex-shrink:0; }
+    .h-tag { font-family:var(--body); font-size:1.02rem; font-weight:300; color:var(--muted); letter-spacing:.02em; }
+
+    /* ── Hero stats strip ── */
+    .h-stats {
+      margin-top: 3.4rem;
+      display:grid; grid-template-columns:repeat(4,1fr);
+      border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+      opacity:0; transform:translateY(10px); animation: up .9s ease .8s forwards;
+    }
+    .h-stat {
+      padding:1.5rem 1.6rem 1.5rem 0;
+      border-right:1px solid var(--border);
+    }
+    .h-stat:last-child { border-right:none; }
+    .h-stat-l { font-family:var(--mono); font-size:.58rem; color:var(--faint); letter-spacing:.16em; text-transform:uppercase; margin-bottom:.55rem; }
+    .h-stat-v { font-family:var(--display); font-size:1.18rem; font-style:italic; color:var(--text); line-height:1.2; }
+
+    /* ── Sections ── */
+    .wrap { max-width:1160px; margin:0 auto; padding:8rem 3rem; }
+    .sec-head { display:flex; align-items:baseline; gap:1.4rem; margin-bottom:4rem; }
+    .sec-n { font-family:var(--mono); font-size:.62rem; color:var(--accent); letter-spacing:.22em; }
+    .sec-t { font-family:var(--display); font-size:clamp(2.4rem,4.5vw,3.8rem); font-weight:300; line-height:1; }
+    .sec-t em { font-style:italic; color:var(--accent); }
+
+    /* ── Sub-section label ── */
+    .sub-label {
+      font-family:var(--mono); font-size:.62rem; color:var(--accent);
+      letter-spacing:.22em; text-transform:uppercase;
+      margin-bottom:2rem; padding-bottom:.8rem;
+      border-bottom:1px solid var(--border);
+    }
+
+    /* ── About ── */
+    .about-col { max-width:760px; }
+    .about-p { font-size:1.05rem; line-height:1.9; color:var(--muted); margin-bottom:1.3rem; }
+    .about-p:last-child { margin-bottom:0; }
+    .about-p strong { color:var(--text); font-weight:500; }
+
+    /* ── Projects ── */
+    .proj-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5px; background:var(--border); }
+    .proj {
+      background:var(--bg); padding:2.4rem; position:relative; overflow:hidden;
+      transition:background .3s;
+    }
+    .proj::before {
+      content:''; position:absolute; inset:0; background:var(--accent-dim);
+      opacity:0; transition:opacity .3s; pointer-events:none;
+    }
+    .proj:hover { background: var(--s1); }
+    .proj:hover::before { opacity:1; }
+    .proj-n { font-family:var(--mono); font-size:.58rem; color:var(--faint); letter-spacing:.2em; margin-bottom:1.4rem; }
+    .proj-name { font-family:var(--display); font-size:1.75rem; font-weight:400; color:var(--text); margin-bottom:.65rem; line-height:1.05; }
+    .proj-desc { font-size:.86rem; line-height:1.72; color:var(--muted); margin-bottom:1.4rem; }
+    .proj.span2 { grid-column:1/-1; }
+
+    /* ── Project accordion ── */
+    .proj-toggle {
+      display:flex; align-items:center; gap:.5rem; margin-top:1.4rem;
+      background:none; border:none; cursor:pointer; padding:0;
+      font-family:var(--mono); font-size:.6rem; letter-spacing:.18em;
+      text-transform:uppercase; color:var(--faint);
+      transition:color .2s;
+    }
+    .proj-toggle:hover { color:var(--accent); }
+    .proj-toggle svg { transition:transform .35s ease; }
+    .proj-toggle.open svg { transform:rotate(180deg); }
+
+    .proj-link {
+      display:inline-flex; align-items:center; gap:.45rem; margin-top:1.6rem;
+      font-family:var(--mono); font-size:.6rem; letter-spacing:.18em;
+      text-transform:uppercase; color:var(--accent); text-decoration:none;
+      border-bottom:1px solid rgba(196,163,90,.28); padding-bottom:.35rem;
+      transition:color .2s, border-color .2s;
+    }
+    .proj-link:hover { color:var(--text); border-color:var(--text); }
+
+    .proj-detail {
+      max-height:0; overflow:hidden;
+      transition:max-height .55s cubic-bezier(.4,0,.2,1), opacity .4s ease;
+      opacity:0;
+    }
+    .proj-detail.open { max-height:6000px; opacity:1; }
+
+    .proj-detail-inner {
+      padding-top:2rem; border-top:1px solid var(--border); margin-top:1.4rem;
+    }
+    .proj-overview {
+      font-size:.86rem; line-height:1.72; color:var(--muted); margin-bottom:2rem;
+    }
+    .proj-overview strong { color:var(--text); font-weight:500; }
+
+    .proj-phase-grid {
+      display:grid; grid-template-columns:1fr 1fr; gap:1.5px;
+      background:var(--border); margin-bottom:2rem;
+    }
+    .proj-phase {
+      background:var(--bg); padding:1.4rem;
+      transition:background .3s;
+    }
+    .proj-phase:hover { background:var(--s1); }
+    .proj-phase-n {
+      font-family:var(--mono); font-size:.56rem; color:var(--accent);
+      letter-spacing:.22em; text-transform:uppercase; margin-bottom:.5rem;
+    }
+    .proj-phase-t {
+      font-family:var(--display); font-size:1.15rem; font-weight:400;
+      color:var(--text); margin-bottom:.45rem; line-height:1.1;
+    }
+    .proj-phase-d { font-size:.82rem; line-height:1.7; color:var(--muted); }
+
+    @media (max-width:768px) { .proj-phase-grid { grid-template-columns:1fr; } }
+
+    /* ── Certifications ── */
+    .cert-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5px; background:var(--border); }
+    .cert {
+      background:var(--bg); padding:2rem 2.4rem;
+      display:flex; align-items:center; justify-content:space-between;
+      transition:background .3s;
+    }
+    .cert:hover { background:var(--s1); }
+    .cert-name { font-family:var(--display); font-size:1.5rem; font-weight:400; color:var(--text); }
+    .cert-issuer { font-family:var(--mono); font-size:.6rem; color:var(--faint); letter-spacing:.15em; text-transform:uppercase; margin-top:.3rem; }
+    .cert-badge {
+      font-family:var(--mono); font-size:.58rem; letter-spacing:.15em; text-transform:uppercase;
+      color:var(--accent); padding:.3rem .65rem; border:1px solid rgba(196,163,90,.28);
+      transition:background .2s, color .2s;
+    }
+    a.cert { text-decoration:none; }
+    a.cert:hover .cert-badge { background:var(--accent); color:var(--bg); }
+
+    /* ── Contact ── */
+    .contact-g { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:end; }
+    .contact-h { font-family:var(--display); font-size:clamp(3rem,5.5vw,5rem); font-weight:300; line-height:.95; }
+    .contact-h em { font-style:italic; color:var(--accent); }
+    .clink {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1.2rem 0; border-bottom:1px solid var(--border);
+      text-decoration:none; transition:padding-left .2s ease;
+    }
+    .clink:hover { padding-left:.5rem; }
+    .clink-l { font-family:var(--mono); font-size:.62rem; color:var(--faint); letter-spacing:.15em; text-transform:uppercase; }
+    .clink-v { font-size:.9rem; color:var(--muted); transition:color .2s; }
+    .clink:hover .clink-v { color:var(--accent); }
+    .arr { color:var(--faint); transition:color .2s, transform .2s; }
+    .clink:hover .arr { color:var(--accent); transform:translateX(4px); }
+
+    /* ── Footer ── */
+    footer {
+      border-top:1px solid var(--border); padding:1.8rem 3rem;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    footer span { font-family:var(--mono); font-size:.62rem; color:var(--faint); letter-spacing:.1em; }
+
+    /* ── Animations ── */
+    @keyframes up    { to { opacity:1; transform:translateY(0); } }
+    @keyframes fadein{ to { opacity:1; } }
+
+    .r { opacity:0; transform:translateY(20px); transition:opacity .75s ease, transform .75s ease; }
+    .r.v { opacity:1; transform:translateY(0); }
+
+    /* ── Mobile ── */
+    @media (max-width:768px) {
+      nav { padding:1rem .8rem; justify-content:center; }
+      .n-logo { display:none; }
+      .n-links { gap:1rem; flex-wrap:wrap; justify-content:center; }
+      .n-links a { font-size:.56rem; letter-spacing:.06em; }
+      .hero { padding:8rem 1.4rem 3.5rem; }
+      .h-stats { grid-template-columns:1fr 1fr; }
+      .h-stat { padding:1.2rem 1rem 1.2rem 0; }
+      .h-stat:nth-child(2) { border-right:none; }
+      .h-stat:nth-child(1), .h-stat:nth-child(2) { border-bottom:1px solid var(--border); }
+      .wrap { padding:5rem 1.4rem; }
+      .proj-grid{ grid-template-columns:1fr; }
+      .cert-grid{ grid-template-columns:1fr; }
+      .contact-g{ grid-template-columns:1fr; gap:3rem; }
+      footer    { flex-direction:column; gap:.5rem; text-align:center; }
+    }
+    @media (max-width:420px) {
+      .h-name { font-size:2.4rem; }
+    }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation:none !important; transition:none !important; }
+      html { scroll-behavior:auto; }
+      .r { opacity:1; transform:none; }
+      .h-kicker, .h-name, .h-sub, .h-stats { opacity:1; transform:none; }
+      #cur, #cur2 { display:none; }
+      body { cursor:auto; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<!-- Nav -->
+<nav id="nav">
+  <div class="n-logo">NT — Portfolio</div>
+  <ul class="n-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Projects</a></li>
+    <li><a href="#certs">Certifications</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero / Title Card -->
+<header class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <p class="h-kicker">Cybersecurity · Applied AI</p>
+    <h1 class="h-name">Nicolas <em>Trabazo</em></h1>
+    <div class="h-sub">
+      <div class="h-rule"></div>
+      <span class="h-tag">Cybersecurity student working at the intersection of cloud security and applied AI.</span>
+    </div>
+  </div>
+</header>
+
+<!-- About -->
+<div class="wrap" id="about">
+  <div class="sec-head r">
+    <span class="sec-n">01 —</span>
+    <h2 class="sec-t">About <em>Me</em></h2>
+  </div>
+  <div class="about-col r">
+    <p class="about-p">I'm a cybersecurity student at Kennesaw State University, completing my B.S. and M.S. in cybersecurity concurrently through the Double Owl accelerated pathway and already enrolled in graduate-level coursework. My focus is the intersection of cloud security and applied AI, and how the two can reinforce each other. I'm CompTIA A+, Security+, and Microsoft AZ-900 certified, currently working toward AZ-104.</p>
+    <p class="about-p">Outside of coursework I serve as President of Theta Chi, the largest IFC chapter on campus, leading its strategic direction and daily operations and representing it to university leadership and the national organization.</p>
+  </div>
+</div>
+
+<!-- Work -->
+<div class="wrap" id="work" style="padding-top:0">
+  <div class="sec-head r">
+    <span class="sec-n">02 —</span>
+    <h2 class="sec-t"><em>Projects</em></h2>
+  </div>
+
+  <div class="r">
+    <div class="proj-grid">
+
+      <div class="proj span2">
+        <p class="proj-n">Personal Project</p>
+        <h3 class="proj-name">Gatekeep</h3>
+        <p class="proj-desc">A security proxy that inspects every prompt before it reaches Anthropic's Claude API, built to solve a problem enterprises don't have a good answer to yet: employees can paste secrets and sensitive personal data into an AI chat tool with nobody watching and no record it happened. Dangerous content gets blocked outright. Sensitive personal data gets automatically redacted while the rest of the request still goes through. Every decision is logged for audit, without ever storing the sensitive text it caught.</p>
+        <button class="proj-toggle" aria-expanded="false" onclick="toggleProj(this)">
+          <span>View Details</span>
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.6">
+            <polyline points="1.5,3.5 5.5,7.5 9.5,3.5"/>
+          </svg>
+        </button>
+
+        <div class="proj-detail" role="region">
+          <div class="proj-detail-inner">
+
+            <p class="proj-overview">
+              The checkpoint adds under a millisecond of decision time per request and holds no API
+              keys of its own, forwarding whatever credentials each client already sends. Below is
+              how each layer works and how it was proven.
+            </p>
+
+            <div class="proj-phase-grid">
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 01</p>
+                <p class="proj-phase-t">The Right Form Factor</p>
+                <p class="proj-phase-d">Shipped as a drop-in reverse proxy because that is what enterprises actually deploy: point an application at the proxy instead of the API endpoint and nothing else changes. One line of configuration puts every request behind the checkpoint, with no SDK swap and no code rewrite.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 02</p>
+                <p class="proj-phase-t">Detection Engineering</p>
+                <p class="proj-phase-d">Built a hybrid detection layer: hand-written pattern matching for known credential formats, a randomness-based fallback that catches secrets no pattern recognizes, and validated checks for personal data like Social Security numbers and card numbers, with an optional named-entity layer for names and locations regex alone can't see.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 03</p>
+                <p class="proj-phase-t">Policy &amp; Governance</p>
+                <p class="proj-phase-d">Every finding routes through a configurable policy engine: block outright, redact and continue, or allow, all defined in a single governance file rather than buried in code. Sensitive requests can even route to a different model automatically. Every decision writes to an audit trail recording what happened and why, never the sensitive text itself.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 04</p>
+                <p class="proj-phase-t">Proving It Works</p>
+                <p class="proj-phase-d">Validated the whole pipeline against a seeded adversarial test set designed to trip it up: real secrets, real personal-data formats, and deliberate traps like normal URLs, code snippets, and invalid-looking data meant to cause false alarms. Then ran it live against Claude with a standard API client to confirm the same behavior holds end to end, not just in a test harness.</p>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <a class="proj-link" href="/gatekeep/" target="_blank" rel="noopener">Launch Live Demo <span aria-hidden="true">&#8599;</span></a>
+      </div>
+
+      <div class="proj span2">
+        <p class="proj-n">Personal Project</p>
+        <h3 class="proj-name">Murmur</h3>
+        <p class="proj-desc">A local voice-dictation tool for Windows that I designed and built end to end. The point wasn't the app itself, it was the engineering: chaining an on-device speech model into a language-model cleanup stage, wrapping it in a self-correcting learning loop, and solving the systems problems underneath, from real-time concurrency to safe text injection into any application without ever corrupting the clipboard.</p>
+        <button class="proj-toggle" aria-expanded="false" onclick="toggleProj(this)">
+          <span>View Details</span>
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.6">
+            <polyline points="1.5,3.5 5.5,7.5 9.5,3.5"/>
+          </svg>
+        </button>
+
+        <div class="proj-detail" role="region">
+          <div class="proj-detail-inner">
+
+            <p class="proj-overview">
+              Hold a hotkey, speak, release, and the text lands in whatever window has focus. Audio never
+              leaves the machine, the cleanup pass degrades gracefully when the connection drops, and the
+              whole learning loop is covered by an automated test suite.
+            </p>
+
+            <div id="murmur-learner-demo"></div>
+
+            <div class="proj-phase-grid">
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 01</p>
+                <p class="proj-phase-t">Pipeline Architecture</p>
+                <p class="proj-phase-d">One real-time system built from independent stages, each swappable and testable on its own. Every stage carries a deliberate speed-versus-accuracy tradeoff, tuned so dictation feels instant without giving up correctness.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 02</p>
+                <p class="proj-phase-t">A Self-Correcting Learning Loop</p>
+                <p class="proj-phase-d">The hardest and most original part. I designed the mechanism that lets the tool learn from its own mistakes: it detects when I fix a word, learns the correction automatically, and feeds that knowledge back into future transcriptions so accuracy on my own vocabulary compounds over time.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 03</p>
+                <p class="proj-phase-t">Systems Engineering</p>
+                <p class="proj-phase-d">Solved the low-level problems that make a tool like this usable in practice. A single-writer concurrency model keeps the learning data consistent across background threads, focus-aware injection behaves correctly when you switch windows mid-sentence, and full clipboard preservation guarantees it never overwrites what you had copied.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 04</p>
+                <p class="proj-phase-t">AI-Assisted Development Workflow</p>
+                <p class="proj-phase-d">Directed the build through an agentic workflow, with an implementation agent writing each component and an independent reviewer agent auditing it against the plan. The loop caught real defects, including race conditions and data-integrity bugs, before they ever shipped. The skill on display is orchestrating AI as an engineering multiplier, not just generating code.</p>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="proj span2">
+        <p class="proj-n">Academic — Master's Level</p>
+        <h3 class="proj-name">Enterprise Risk Management</h3>
+        <p class="proj-desc">Conducted asset-threat-vulnerability assessments using Clearwater IRM|Pro, producing residual risk scores to inform control selection across a simulated enterprise environment. Applied NIST risk assessment methodology to quantify inherent vs. residual risk and develop prioritized mitigation plans with documented feasibility and effectiveness ratings.</p>
+        <button class="proj-toggle" aria-expanded="false" onclick="toggleProj(this)">
+          <span>View Details</span>
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.6">
+            <polyline points="1.5,3.5 5.5,7.5 9.5,3.5"/>
+          </svg>
+        </button>
+
+        <div class="proj-detail" role="region">
+          <div class="proj-detail-inner">
+            <div id="erm-rating-demo"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj span2">
+        <p class="proj-n">Personal Project</p>
+        <h3 class="proj-name">AI OS</h3>
+        <p class="proj-desc">A personal AI operating system built on top of Claude Code: a layered system of agents, skills, workflows, and MCP integrations, backed by a persistent memory layer that gets smarter with use. Engineered for real productivity over demos, with automated triggers handling everything from a daily email and calendar brief to recurring scheduled tasks woven into daily life.</p>
+        <button class="proj-toggle" aria-expanded="false" onclick="toggleProj(this)">
+          <span>View Details</span>
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.6">
+            <polyline points="1.5,3.5 5.5,7.5 9.5,3.5"/>
+          </svg>
+        </button>
+        <div class="proj-detail" role="region">
+          <div class="proj-detail-inner">
+            <div id="aios-map-demo"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj span2">
+        <p class="proj-n">Academic — Bachelor's Level</p>
+        <h3 class="proj-name">Cybersecurity Risk Assessment</h3>
+        <p class="proj-desc">Built a weighted asset inventory and decision matrix to evaluate system criticality across a simulated multi-asset environment. Quantified risk using likelihood × impact scoring and developed cost-benefit mitigation recommendations aligned with industry standards.</p>
+        <button class="proj-toggle" aria-expanded="false" onclick="toggleProj(this)">
+          <span>View Details</span>
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.6">
+            <polyline points="1.5,3.5 5.5,7.5 9.5,3.5"/>
+          </svg>
+        </button>
+
+        <div class="proj-detail" role="region">
+          <div class="proj-detail-inner">
+
+            <p class="proj-overview">
+              A full-scope risk assessment conducted for a simulated small business running on legacy
+              infrastructure with no existing security policies, trained IT staff, or incident response
+              planning. The goal was to move from a completely unstructured environment to a prioritized,
+              defensible security posture.
+            </p>
+
+            <div id="risk-matrix-demo"></div>
+
+            <div class="proj-phase-grid">
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 01</p>
+                <p class="proj-phase-t">Asset Inventory</p>
+                <p class="proj-phase-d">Catalogued each asset in the environment, documenting data classification, ownership, usage patterns, and recovery requirements. Established a clear baseline of what existed, what it handled, and what depended on it.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 02</p>
+                <p class="proj-phase-t">Asset Valuation Matrix</p>
+                <p class="proj-phase-d">Built a weighted scoring model to rank assets by business importance. Criteria were selected and justified to reflect the organization's profile as a small consumer brand, balancing operational continuity, revenue impact, legal exposure, and reputational risk.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 03</p>
+                <p class="proj-phase-t">Risk Determination</p>
+                <p class="proj-phase-d">Applied a likelihood-impact framework to score each asset's exposure. Identified environment-wide weaknesses including legacy software, lack of network segmentation, no multi-factor authentication, and no employee security training.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 04</p>
+                <p class="proj-phase-t">Risk Response</p>
+                <p class="proj-phase-d">Developed per-asset mitigation recommendations scaled to a realistic small business budget. Proposals covered infrastructure modernization, access control improvements, network segmentation, backup hardening, and a structured employee training program.</p>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Certifications -->
+<div class="wrap" id="certs" style="padding-top:0">
+  <div class="sec-head r">
+    <span class="sec-n">03 —</span>
+    <h2 class="sec-t"><em>Certifications</em></h2>
+  </div>
+  <div class="r">
+    <div class="cert-grid">
+      <a class="cert" href="https://learn.microsoft.com/en-us/users/nicolastrabazo-2528/credentials/9666a49ec8310bac" target="_blank" rel="noopener">
+        <div>
+          <div class="cert-name">AZ-900</div>
+          <div class="cert-issuer">Microsoft Azure Fundamentals</div>
+        </div>
+        <span class="cert-badge">Verify ↗</span>
+      </a>
+      <a class="cert" href="https://www.credly.com/badges/aa323b8f-13a2-4599-a7d2-03036b7aed32" target="_blank" rel="noopener">
+        <div>
+          <div class="cert-name">Security+</div>
+          <div class="cert-issuer">CompTIA</div>
+        </div>
+        <span class="cert-badge">Verify ↗</span>
+      </a>
+      <a class="cert" href="https://www.credly.com/badges/66dc3dde-73a8-4e58-a376-c27da6faa7a5" target="_blank" rel="noopener">
+        <div>
+          <div class="cert-name">A+</div>
+          <div class="cert-issuer">CompTIA</div>
+        </div>
+        <span class="cert-badge">Verify ↗</span>
+      </a>
+      <a class="cert" href="https://www.credly.com/badges/8d33c4e3-3286-4d1a-bdaa-f99a6e2e9a36" target="_blank" rel="noopener">
+        <div>
+          <div class="cert-name">Intro to Cybersecurity</div>
+          <div class="cert-issuer">Cisco Networking Academy</div>
+        </div>
+        <span class="cert-badge">Verify ↗</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Contact -->
+<div class="wrap" id="contact">
+  <div class="contact-g">
+    <div class="r">
+      <h2 class="contact-h">Let's work<br><em>together.</em></h2>
+    </div>
+    <div class="r">
+      <a href="/NicolasTrabazoResume.pdf" download="Nicolas Trabazo Resume.pdf" class="clink">
+        <span class="clink-l">Resume</span>
+        <span class="clink-v">Download PDF</span>
+        <span class="arr">↓</span>
+      </a>
+      <a href="mailto:nicolastrabazo1@gmail.com" class="clink">
+        <span class="clink-l">Email</span>
+        <span class="clink-v">nicolastrabazo1@gmail.com</span>
+        <span class="arr">→</span>
+      </a>
+      <a href="https://www.linkedin.com/in/nicolas-trabazo/" class="clink" target="_blank" rel="noopener">
+        <span class="clink-l">LinkedIn</span>
+        <span class="clink-v">nicolas-trabazo</span>
+        <span class="arr">→</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <span>© 2026 Nicolas Trabazo</span>
+  <span>Bridging the gap between efficient AI systems and secure infrastructure.</span>
+</footer>
+
+<script>
+  // Cursor
+  const cur = document.getElementById('cur');
+  const cur2 = document.getElementById('cur2');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cur.style.left = mx + 'px'; cur.style.top = my + 'px';
+  });
+  (function loop() {
+    rx += (mx - rx) * .11; ry += (my - ry) * .11;
+    cur2.style.left = rx + 'px'; cur2.style.top = ry + 'px';
+    requestAnimationFrame(loop);
+  })();
+
+  // Nav on scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('on', scrollY > 40), { passive: true });
+
+  // Reveal
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('v'); io.unobserve(e.target); } }), { threshold: .08 });
+  document.querySelectorAll('.r').forEach(el => io.observe(el));
+
+  // Card demos load lazily; each renders only if its container exists
+  for (const src of ["demos/risk-matrix.js", "demos/erm-rating.js", "demos/murmur-learner.js", "demos/aios-map.js"]) {
+    const s = document.createElement("script");
+    s.src = src;
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+
+  // Project accordion
+  function toggleProj(btn) {
+    const detail = btn.nextElementSibling;
+    const open = detail.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open);
+    btn.querySelector('span').textContent = open ? 'Hide Details' : 'View Details';
+  }
+</script>
+</body>
+</html>
