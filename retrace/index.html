@@ -3,483 +3,221 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Retrace · search everything you've seen — live demo</title>
-<meta name="description" content="Search a synthetic workday and watch lexical and semantic results fuse through the same reciprocal rank fusion math as Screen-Recall, the real local app. Runs entirely in your browser.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0f'/%3E%3Ccircle cx='13' cy='13' r='9' fill='none' stroke='%23c4a35a' stroke-width='2.3'/%3E%3Cpath d='M19.5 19.5L27 27' stroke='%23c4a35a' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M13 8v5l3.3 2' stroke='%23c4a35a' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>Retrace — search everything you've seen</title>
+<meta name="description" content="A live demo of Screen-Recall's search engine: ask what you were doing, get an answer and the screenshot that backs it up. Runs entirely in your browser.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230f0d0b'/%3E%3Ccircle cx='13' cy='13' r='9' fill='none' stroke='%23f59a24' stroke-width='2.3'/%3E%3Cpath d='M19.5 19.5L27 27' stroke='%23f59a24' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M13 8v5l3.3 2' stroke='%23f59a24' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
   :root {
-    --bg: #0b0b0f;
-    --panel: #111118;
-    --panel-2: #0d0d13;
-    --line: rgba(196, 163, 90, 0.12);
-    --line-2: rgba(196, 163, 90, 0.3);
-    --text: #e5e1d6;
-    --dim: #8e8880;
-    --faint: #6b655a;
-    --steel: #c4a35a;
-    --lex: #7ba8bd;
-    --sem: #c17b93;
-    --good: #5cb17c;
-    --warn: #e0a83c;
-    --err: #e05e5e;
-    --display: "Cormorant", Georgia, serif;
-    --mono: "JetBrains Mono", "Cascadia Code", Consolas, monospace;
-    --body: "Outfit", "Segoe UI", sans-serif;
+    --bg: #0f0d0b;
+    --card: #171412;
+    --card-2: #12100e;
+    --text: #e7e2da;
+    --muted: #918678;
+    --faint: #6e645a;
+    --border: #2e2924;
+    --primary: #f59a24;
+    --primary-dim: rgba(245, 154, 36, 0.14);
+    --sans: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --mono: "Cascadia Mono", "Cascadia Code", Consolas, ui-monospace, monospace;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { color-scheme: dark; }
-
   body {
-    font-family: var(--mono);
-    font-size: 14px;
-    line-height: 1.55;
+    font-family: var(--sans);
+    font-size: 15px;
     color: var(--text);
     background:
-      radial-gradient(1100px 500px at 70% -10%, rgba(196, 163, 90, 0.05), transparent 60%),
+      radial-gradient(1200px 700px at 50% -10%, rgba(245, 154, 36, 0.06), transparent 60%),
       var(--bg);
     min-height: 100vh;
   }
-
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 999;
-    opacity: 0.05;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 26px 22px 60px; }
-
-  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) {
-    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   }
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .microlabel { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); }
+  a { color: inherit; }
 
   /* ---------- header ---------- */
-  header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 14px 22px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid var(--line);
-    animation: rise 0.5s 0.02s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  }
-  .mark { display: flex; align-items: center; gap: 12px; }
+  header { border-bottom: 1px solid var(--border); background: rgba(23, 20, 18, 0.6); backdrop-filter: blur(8px); }
+  .header-inner { max-width: 1200px; margin: 0 auto; padding: 14px 22px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .mark { display: flex; align-items: center; gap: 10px; flex: none; }
   .mark svg { display: block; }
-
-  .wordmark {
-    font-family: var(--display);
-    font-weight: 300;
-    font-size: 2.3rem;
-    letter-spacing: 0.01em;
-    line-height: 0.95;
-  }
-  .wordmark em { font-style: italic; color: var(--steel); }
-  .wordmark small {
-    display: block;
-    font-family: var(--mono);
-    font-weight: 400;
-    font-size: 0.62rem;
-    letter-spacing: 0.24em;
-    color: var(--dim);
-    margin-top: 7px;
-  }
-
-  .head-right { margin-left: auto; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-
-  .chip-btn, .repo-link {
-    font-family: var(--mono);
-    font-size: 0.74rem;
-    letter-spacing: 0.06em;
-    color: var(--dim);
-    background: var(--panel-2);
-    border: 1px solid var(--line);
-    padding: 7px 12px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: border-color 0.15s, color 0.15s;
-  }
-  .chip-btn:hover, .repo-link:hover { border-color: var(--line-2); color: var(--text); }
-
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--faint); flex: none; }
-  .dot.pass { background: var(--good); box-shadow: 0 0 8px rgba(92, 177, 124, 0.8); }
-  .dot.fail { background: var(--err); box-shadow: 0 0 8px rgba(224, 94, 94, 0.8); }
-
-  .intro {
-    font-family: var(--body);
-    font-weight: 300;
-    font-size: 0.98rem;
-    line-height: 1.8;
-    color: var(--dim);
-    max-width: 76ch;
-    margin: 16px 0 22px;
-    animation: rise 0.5s 0.08s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  }
-  .intro b { color: var(--text); font-weight: 500; }
-
-  /* ---------- self-test strip ---------- */
-  #selftest-panel {
-    display: none;
-    border: 1px solid var(--line);
-    background: var(--panel-2);
-    padding: 16px 18px;
-    margin: 0 0 22px;
-  }
-  #selftest-panel.open { display: block; animation: rise 0.3s ease both; }
-  #selftest-panel table { border-collapse: collapse; margin: 10px 0 12px; width: 100%; max-width: 480px; }
-  #selftest-panel th, #selftest-panel td {
-    text-align: left;
-    padding: 4px 18px 4px 0;
-    font-size: 0.8rem;
-    border-bottom: 1px dashed var(--line);
-  }
-  #selftest-panel th { color: var(--faint); font-weight: 400; }
-  #selftest-panel td.ok { color: var(--good); }
-  #selftest-panel td.bad { color: var(--err); }
-  #selftest-panel .note { font-family: var(--body); font-weight: 300; color: var(--dim); font-size: 0.86rem; line-height: 1.7; max-width: 80ch; }
-  #selftest-panel .note code { font-family: var(--mono); font-size: 0.78rem; }
-
-  /* ---------- shared panel/section chrome ---------- */
-  .panel {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    padding: 18px;
-    animation: rise 0.5s 0.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  }
-  section + section, .panel + .panel { margin-top: 16px; }
-
-  .sec-label {
-    font-family: var(--mono);
-    font-weight: 400;
-    font-size: 0.66rem;
-    text-transform: uppercase;
-    letter-spacing: 0.24em;
-    color: var(--steel);
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-  .sec-label .no { color: var(--faint); font-weight: 400; letter-spacing: 0.1em; }
-  .sec-label .rule { flex: 1; border-top: 1px solid var(--line); align-self: center; min-width: 24px; }
-  .sec-label .tag { color: var(--faint); font-weight: 400; letter-spacing: 0.05em; text-transform: none; }
-  .sec-label .synth-label { margin-left: auto; color: var(--warn); font-weight: 400; letter-spacing: 0.05em; text-transform: none; font-size: 0.68rem; }
-  .col-lex .sec-label { color: var(--lex); }
-  .col-sem .sec-label { color: var(--sem); }
-
-  /* ---------- search panel ---------- */
-  .day-label { font-family: var(--body); color: var(--dim); font-size: 0.84rem; margin-bottom: 14px; }
-  .search-row { display: flex; gap: 10px; }
+  .wordmark { font-family: var(--sans); font-weight: 600; font-size: 15px; letter-spacing: 0.2em; line-height: 1; }
+  .wordmark .dot { color: var(--primary); }
+  .header-inner .microlabel { margin-top: 4px; }
+  .search-wrap { flex: 1; min-width: 260px; display: flex; gap: 10px; }
   #query {
-    flex: 1;
-    background: var(--panel-2);
-    color: var(--text);
-    border: 1px solid var(--line-2);
-    font-family: var(--mono);
-    font-size: 0.9rem;
-    padding: 11px 12px;
+    flex: 1; background: var(--card-2); color: var(--text); border: 1px solid var(--border);
+    border-radius: 8px; font-family: var(--sans); font-size: 14.5px; padding: 11px 14px;
   }
-  #query:focus-visible { outline: 1px solid var(--steel); outline-offset: 1px; }
   #query::placeholder { color: var(--faint); }
-
+  #query:focus-visible { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-dim); }
   #run-search {
-    font-family: var(--mono);
-    font-weight: 500;
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    color: var(--bg);
-    background: var(--steel);
-    border: none;
-    padding: 0 20px;
-    cursor: pointer;
+    font-family: var(--sans); font-weight: 600; font-size: 14px; color: #1a1207;
+    background: var(--primary); border: none; border-radius: 8px; padding: 0 22px; cursor: pointer;
     transition: filter 0.15s;
   }
-  #run-search:hover { filter: brightness(1.12); }
+  #run-search:hover { filter: brightness(1.08); }
+  .portfolio-link {
+    flex: none; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--muted);
+    text-decoration: none; border: 1px solid var(--border); border-radius: 6px; padding: 7px 12px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .portfolio-link:hover { color: var(--text); border-color: var(--muted); }
 
-  .meta-line { display: flex; justify-content: space-between; gap: 10px; color: var(--faint); font-size: 0.72rem; margin-top: 8px; }
-  .input-hint { color: var(--warn); font-size: 0.76rem; margin-top: 6px; min-height: 1.2em; }
-
-  .chips { display: flex; flex-wrap: wrap; gap: 7px; margin: 16px 0 4px; }
-  .chips-title { flex-basis: 100%; color: var(--faint); font-size: 0.72rem; letter-spacing: 0.14em; margin-bottom: 2px; }
+  /* ---------- suggestions ---------- */
+  .suggest-row { max-width: 1200px; margin: 0 auto; padding: 12px 22px 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .suggest-row .lbl { font-family: var(--mono); font-size: 11px; color: var(--faint); letter-spacing: 0.08em; margin-right: 2px; }
   .chip {
-    font-family: var(--mono);
-    font-size: 0.74rem;
-    color: var(--dim);
-    background: transparent;
-    border: 1px solid var(--line-2);
-    padding: 6px 11px;
-    cursor: pointer;
-    transition: color 0.15s, background 0.15s, border-color 0.15s;
+    font-family: var(--sans); font-size: 13px; color: var(--muted); background: var(--card);
+    border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
   }
-  .chip:hover, .chip.active { color: var(--bg); background: var(--text); border-color: var(--text); }
+  .chip:hover, .chip.active { color: var(--text); border-color: var(--primary); background: var(--primary-dim); }
 
-  /* ---------- results layout ---------- */
-  .layout { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
-  @media (max-width: 720px) { .layout { grid-template-columns: 1fr; } }
+  /* ---------- main ---------- */
+  main { max-width: 1200px; margin: 0 auto; padding: 18px 22px 40px; display: flex; flex-direction: column; gap: 16px; }
 
-  .result-row {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    padding: 7px 8px;
-    border-left: 3px solid transparent;
-    font-size: 0.83rem;
+  .idle-state { border: 1px dashed var(--border); border-radius: 10px; padding: 60px 20px; text-align: center; color: var(--faint); font-size: 14px; }
+
+  .hint { font-size: 12.5px; color: var(--faint); min-height: 1.2em; padding-left: 2px; }
+
+  /* answer card */
+  .answer-card { position: relative; overflow: hidden; border-radius: 10px; border: 1px solid var(--border); background: var(--card); padding: 18px 20px; animation: rise 0.35s ease both; }
+  .answer-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 1px; background: linear-gradient(90deg, transparent, rgba(245,154,36,0.5), transparent); }
+  .answer-top { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .answer-top .q { color: var(--faint); }
+  .badge-guess { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--primary); border: 1px solid rgba(245,154,36,0.5); border-radius: 20px; padding: 2px 10px; }
+  .answer-text { margin-top: 10px; max-width: 72ch; font-size: 16px; line-height: 1.7; }
+  .answer-caveat { margin-top: 6px; font-size: 12.5px; color: var(--muted); }
+  .cited-row { margin-top: 14px; display: flex; align-items: center; gap: 12px; border: 1px solid var(--border); border-radius: 8px; background: rgba(0,0,0,0.18); padding: 8px; }
+  .cited-row img { width: 96px; height: 56px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); flex: none; cursor: pointer; }
+  .cited-info { min-width: 0; flex: 1; }
+  .cited-info .t { font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cited-info .microlabel { margin-top: 3px; }
+  .view-btn {
+    flex: none; font-family: var(--sans); font-size: 12.5px; color: var(--text); background: var(--border);
+    border: none; border-radius: 6px; padding: 7px 12px; cursor: pointer; transition: background 0.15s;
   }
-  .result-row:nth-child(odd) { background: rgba(255,255,255,0.015); }
-  .result-row.winner { border-left-color: var(--steel); background: rgba(196, 163, 90, 0.08); }
-  .r-rank { color: var(--faint); font-size: 0.72rem; width: 1.4em; flex: none; }
-  .r-time { color: var(--faint); font-size: 0.72rem; flex: none; }
-  .r-title { font-family: var(--body); color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .r-title mark { background: rgba(196, 163, 90, 0.35); color: var(--text); padding: 0 1px; }
-  .col-empty, .col-note {
-    font-family: var(--body);
-    color: var(--faint);
-    font-size: 0.84rem;
-    padding: 20px 4px;
-    line-height: 1.7;
-  }
-  .col-note { color: var(--dim); }
+  .view-btn:hover { background: #3a332c; }
 
-  /* ---------- fusion panel ---------- */
-  .fusion-winner { display: flex; align-items: baseline; gap: 10px; margin-bottom: 8px; }
-  .fw-time { color: var(--faint); font-size: 0.78rem; }
-  .fw-title { font-family: var(--display); font-style: italic; font-size: 1.15rem; color: var(--text); }
-  .fusion-formula { font-size: 0.86rem; color: var(--steel); margin-bottom: 10px; }
-  .fusion-empty { font-family: var(--body); color: var(--faint); padding: 10px 0; }
-  .gate { font-family: var(--body); font-size: 0.84rem; line-height: 1.7; padding: 10px 12px; border-left: 3px solid var(--line-2); }
-  .gate.pass { border-left-color: var(--good); color: var(--good); }
-  .gate.fail { border-left-color: var(--warn); color: var(--warn); }
-  .gate.note { border-left-color: var(--line-2); color: var(--dim); }
+  /* capture preview */
+  .capture-preview { border-radius: 10px; border: 1px solid var(--border); background: var(--card); overflow: hidden; animation: rise 0.35s 0.05s ease both; }
+  .cp-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  .cp-head .t { font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cp-actions { display: flex; gap: 8px; flex: none; }
+  .cp-img-wrap { background: #000; text-align: center; cursor: zoom-in; }
+  .cp-img-wrap img { max-height: 56vh; width: auto; max-width: 100%; object-fit: contain; display: inline-block; }
+  .cp-snippet { border-top: 1px solid var(--border); padding: 8px 14px; font-family: var(--mono); font-size: 11.5px; line-height: 1.6; color: var(--muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-  /* ---------- answer panel ---------- */
-  .answer-badge {
-    display: inline-block;
-    font-size: 0.66rem;
-    letter-spacing: 0.14em;
-    padding: 3px 9px;
-    margin-bottom: 10px;
-    border: 1px solid currentColor;
-  }
-  .answer-badge.high { color: var(--good); }
-  .answer-badge.low { color: var(--warn); }
-  .answer-badge.note { color: var(--dim); }
-  #answer-card p { font-family: var(--body); font-size: 0.92rem; line-height: 1.75; color: var(--text); max-width: 68ch; }
+  /* timeline */
+  .timeline-wrap { border-radius: 10px; border: 1px solid var(--border); background: var(--card); overflow: hidden; animation: rise 0.35s 0.1s ease both; }
+  .timeline-head { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; }
+  .back-btn { font-family: var(--sans); font-size: 12.5px; color: var(--muted); background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+  .back-btn:hover { color: var(--text); }
+  .sprockets { height: 10px; background-image: radial-gradient(circle at center, var(--border) 1.6px, transparent 1.8px); background-size: 18px 100%; background-repeat: repeat-x; }
+  .timeline-scroll { display: flex; gap: 6px; overflow-x: auto; padding: 10px 14px; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+  .timeline-scroll::-webkit-scrollbar { height: 7px; }
+  .timeline-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .thumb { flex: none; width: 128px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; text-align: left; background: none; transition: border-color 0.15s; }
+  .thumb:hover { border-color: var(--muted); }
+  .thumb.selected { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); }
+  .thumb img { width: 100%; height: 72px; object-fit: cover; display: block; background: var(--card-2); }
+  .thumb-meta { display: flex; align-items: center; justify-content: space-between; padding: 4px 6px; background: rgba(0,0,0,0.3); }
+  .thumb-meta span { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+  .thumb-meta .match-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); box-shadow: 0 0 6px var(--primary); }
 
-  /* ---------- timeline ---------- */
-  .timeline-scroll { overflow-x: auto; padding-bottom: 6px; }
-  .timeline { display: flex; align-items: flex-end; gap: 3px; height: 72px; min-width: min-content; }
-  .tbar {
-    flex: none;
-    width: 12px;
-    background: var(--panel-2);
-    border: 1px solid var(--line);
-    border-bottom: none;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-    padding: 0;
-  }
-  .tbar:hover { background: var(--line-2); }
-  .tbar.active { background: var(--steel); border-color: var(--steel); }
-  .timeline-caption { display: flex; justify-content: space-between; font-size: 0.68rem; color: var(--faint); margin-top: 6px; }
+  /* verification strip */
+  .verify-strip { border-top: 1px solid var(--border); margin-top: 8px; padding-top: 16px; font-size: 12.5px; color: var(--faint); line-height: 1.7; }
+  .verify-strip button { font-family: var(--sans); font-size: 12.5px; color: var(--muted); background: none; border: none; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+  .verify-strip button:hover { color: var(--text); }
+  .verify-detail { display: none; margin-top: 10px; }
+  .verify-detail.open { display: block; }
+  .verify-detail table { border-collapse: collapse; font-size: 11.5px; }
+  .verify-detail th, .verify-detail td { text-align: left; padding: 3px 14px 3px 0; border-bottom: 1px dashed var(--border); }
+  .verify-detail th { color: var(--faint); font-weight: 400; font-family: var(--mono); font-size: 10px; text-transform: uppercase; }
+  .verify-detail td.ok { color: #6bbf82; }
+  .verify-detail td.bad { color: #e0655c; }
+  .verify-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; background: var(--faint); }
+  .verify-dot.pass { background: #6bbf82; }
+  .verify-dot.fail { background: #e0655c; }
 
-  /* ---------- frame viewer ---------- */
-  .frame { border: 1px solid var(--line-2); background: var(--panel-2); }
-  .frame-chrome {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    border-bottom: 1px solid var(--line);
-    font-size: 0.7rem;
-    color: var(--faint);
-  }
-  .frame-chrome .dot { width: 8px; height: 8px; }
-  .frame-chrome .dot.r { background: #e05e5e; }
-  .frame-chrome .dot.y { background: #e0a83c; }
-  .frame-chrome .dot.g { background: #5cb17c; }
-  .frame-app-tag { letter-spacing: 0.12em; color: var(--steel); margin-left: 4px; }
-  .frame-title { color: var(--dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
-  .frame-time { flex: none; }
-
-  .frame-body { padding: 14px 16px; min-height: 120px; font-size: 0.86rem; }
-  .frame-line { padding: 2px 0; }
-  .frame-line.ln-error { color: var(--err); }
-  .frame-line.ln-prompt { color: var(--steel); }
-  .frame-line.ln-heading { color: var(--steel); font-weight: 500; font-size: 1.02em; margin-top: 4px; }
-  .frame-line.ln-bullet { padding-left: 14px; color: var(--dim); }
-  .frame-line mark { background: rgba(196, 163, 90, 0.35); color: var(--text); padding: 0 1px; }
-
-  .app-terminal .frame-body, .app-editor .frame-body { font-family: var(--mono); background: #07070a; color: #dcd6c8; }
-  .app-editor .frame-line { padding-left: 26px; position: relative; color: #b9c4d0; }
-  .app-editor .frame-line::before { content: attr(data-ln); position: absolute; left: 0; width: 20px; text-align: right; color: var(--faint); }
-  .app-browser .frame-body, .app-docs .frame-body { font-family: var(--body); line-height: 1.85; color: var(--text); }
-  .app-browser .frame-chrome::before {
-    content: "";
-    width: 10px; height: 10px; border-radius: 50%;
-    border: 1.5px solid var(--faint);
-    margin-right: 2px;
-  }
-  .app-chat .frame-body { display: flex; flex-direction: column; gap: 8px; font-family: var(--body); }
-  .app-chat .frame-line {
-    max-width: 80%;
-    padding: 8px 12px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    align-self: flex-start;
-  }
-  .app-chat .frame-line.ln-you { align-self: flex-end; background: rgba(196, 163, 90, 0.12); border-color: var(--line-2); }
-
-  .frame-synth {
-    padding: 8px 12px;
-    font-size: 0.66rem;
-    letter-spacing: 0.08em;
-    color: var(--warn);
-    border-top: 1px dashed var(--line);
-  }
-  .frame-idle { font-family: var(--body); color: var(--faint); padding: 40px 20px; text-align: center; }
-
-  /* ---------- pipeline / privacy strips ---------- */
-  .stat-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 18px; font-size: 0.98rem; margin-bottom: 10px; }
-  .stat-row b { font-family: var(--display); font-style: italic; color: var(--steel); font-size: 1.3rem; font-weight: 500; }
-  .stat-arrow { color: var(--faint); }
-  .strip-note { font-family: var(--body); color: var(--dim); font-size: 0.86rem; line-height: 1.75; max-width: 78ch; }
-  .strip-note + .strip-note { margin-top: 6px; }
-
-  footer {
-    margin-top: 30px;
-    padding-top: 18px;
-    border-top: 1px solid var(--line);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 20px;
-    font-size: 0.72rem;
-    color: var(--faint);
-  }
-  footer a { color: var(--dim); }
+  footer { max-width: 1200px; margin: 0 auto; padding: 0 22px 30px; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--faint); }
   footer a:hover { color: var(--text); }
+
+  /* lightbox */
+  .lightbox { position: fixed; inset: 0; background: rgba(6,5,4,0.92); display: none; align-items: center; justify-content: center; z-index: 1000; cursor: zoom-out; padding: 30px; }
+  .lightbox.open { display: flex; }
+  .lightbox img { max-width: 100%; max-height: 100%; border-radius: 6px; box-shadow: 0 30px 80px rgba(0,0,0,0.6); }
+
+  @media (max-width: 640px) {
+    .cited-row { flex-wrap: wrap; }
+    .thumb { width: 104px; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
 
   <header>
-    <div class="mark" aria-hidden="true">
-      <svg width="40" height="40" viewBox="0 0 32 32" fill="none">
-        <circle cx="13" cy="13" r="9" stroke="#c4a35a" stroke-width="2"/>
-        <path d="M19.5 19.5L27 27" stroke="#c4a35a" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M13 8v5l3.3 2" stroke="#c4a35a" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+    <div class="header-inner">
+      <div class="mark">
+        <svg width="30" height="30" viewBox="0 0 32 32" fill="none">
+          <circle cx="13" cy="13" r="9" stroke="#f59a24" stroke-width="2.3"/>
+          <path d="M19.5 19.5L27 27" stroke="#f59a24" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M13 8v5l3.3 2" stroke="#f59a24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <div class="wordmark">RETRACE<span class="dot"> ·</span></div>
+          <p class="microlabel">search everything you've seen</p>
+        </div>
+      </div>
+      <div class="search-wrap">
+        <input id="query" type="text" maxlength="200" spellcheck="false" autocomplete="off"
+          placeholder="Ask your screen history… “what was that youtube video about azure?”">
+        <button id="run-search">Recall</button>
+      </div>
+      <a class="portfolio-link" href="https://nicolastrabazo.com/">← Portfolio</a>
     </div>
-    <h1 class="wordmark">Re<em>trace</em><small>SEARCH EVERYTHING YOU'VE SEEN · LOCALLY</small></h1>
-    <div class="head-right">
-      <a class="repo-link" href="https://nicolastrabazo.com/">← PORTFOLIO</a>
-      <button class="chip-btn" id="selftest-chip" aria-expanded="false" aria-controls="selftest-panel">
-        <span class="dot" id="selftest-dot"></span><span id="selftest-text">SELF-TEST …</span>
-      </button>
+    <div class="suggest-row">
+      <span class="lbl">Try asking:</span>
+      <div id="chips" style="display:contents"></div>
     </div>
   </header>
 
-  <p class="intro">
-    Screen-Recall is a small local app: it captures the screen every few seconds, reads the text with
-    OCR, and makes every moment searchable by keyword and by meaning. This page runs the exact same
-    lexical, semantic, and fusion math, ported to JavaScript, against <b>one invented workday</b> —
-    the algorithms are real, nothing on this page was ever actually captured.
-  </p>
+  <main>
+    <div class="hint" id="input-hint"></div>
 
-  <div id="selftest-panel" role="region" aria-label="Engine self-test results">
-    <div id="selftest-detail"></div>
-    <p class="note">
-      On load, this page replayed all six search chips through the in-browser engine
-      (<code>retrace.js</code>) and compared ranked-id order and fused RRF scores against a reference
-      computed by the real Python search code (<code>build_corpus.py</code> — real BM25 via SQLite
-      FTS5, real MiniLM embeddings, real <code>rrf_fuse</code>). The same check runs offline via
-      <code>node demo/selftest.node.js</code> in the repo.
-    </p>
-  </div>
+    <div id="idle-state" class="idle-state">Ask a question above, or click one of the examples to see how Retrace answers.</div>
 
-  <section class="panel">
-    <div class="sec-label"><span class="no">01</span> SEARCH A SYNTHETIC WORKDAY <span class="rule"></span></div>
-    <div class="day-label" id="day-label"></div>
-    <div class="search-row">
-      <input id="query" type="text" maxlength="200" spellcheck="false" autocomplete="off"
-        placeholder='ask what you were doing… e.g. "what was that azure login error"'>
-      <button id="run-search">SEARCH</button>
+    <div id="answer-card" class="answer-card" style="display:none"></div>
+    <div id="capture-preview" class="capture-preview" style="display:none"></div>
+
+    <div class="timeline-wrap">
+      <div class="timeline-head">
+        <span class="microlabel">one synthetic workday — scrub to browse it</span>
+        <button class="back-btn" id="back-btn" style="display:none">↺ Back to browse</button>
+      </div>
+      <div class="sprockets"></div>
+      <div class="timeline-scroll" id="timeline"></div>
+      <div class="sprockets"></div>
     </div>
-    <div class="meta-line">
-      <span>typed queries run lexical-only · chips carry precomputed semantic vectors</span>
-      <span id="charcount">0/200</span>
+
+    <div class="verify-strip">
+      <span id="verify-summary">Every capture on this page is fabricated for this demo — the search engine itself (BM25 lexical search, MiniLM embeddings, reciprocal rank fusion) is the real thing.</span>
+      <button id="verify-toggle">See how it's verified →</button>
+      <div class="verify-detail" id="verify-detail"></div>
     </div>
-    <div class="input-hint" id="input-hint"></div>
-    <div class="chips" id="chips">
-      <span class="chips-title">SIX MOMENTS, PRECOMPUTED FOR TRUE HYBRID SEARCH</span>
-    </div>
-  </section>
-
-  <div class="layout">
-    <section class="panel col-lex">
-      <div class="sec-label"><span class="no">02</span> LEXICAL <span class="tag">FTS5 · BM25</span> <span class="rule"></span></div>
-      <div id="lex-results" class="col-empty">run a search or click a chip above</div>
-    </section>
-    <section class="panel col-sem">
-      <div class="sec-label"><span class="no">03</span> SEMANTIC <span class="tag">MiniLM · cosine</span> <span class="rule"></span></div>
-      <div id="sem-results" class="col-empty">run a search or click a chip above</div>
-    </section>
-  </div>
-
-  <section class="panel">
-    <div class="sec-label"><span class="no">04</span> RRF FUSION <span class="rule"></span></div>
-    <div id="fusion-content"><p class="fusion-empty">nothing fused yet.</p></div>
-  </section>
-
-  <section class="panel">
-    <div class="sec-label">
-      <span class="no">05</span> TIMELINE <span class="rule"></span>
-      <span class="synth-label">SYNTHETIC DATA — every frame is fabricated</span>
-    </div>
-    <div class="timeline-scroll"><div class="timeline" id="timeline"></div></div>
-    <div class="timeline-caption"><span id="tl-start"></span><span id="tl-end"></span></div>
-  </section>
-
-  <div class="layout">
-    <section class="panel">
-      <div class="sec-label"><span class="no">06</span> FRAME <span class="rule"></span></div>
-      <div id="frame-viewer"><div class="frame-idle">select a moment from the timeline, or run a search above</div></div>
-    </section>
-    <section class="panel">
-      <div class="sec-label"><span class="no">07</span> ANSWER <span class="rule"></span></div>
-      <div id="answer-card"><p style="font-family: var(--body); color: var(--faint);">nothing asked yet.</p></div>
-    </section>
-  </div>
-
-  <section class="panel">
-    <div class="sec-label"><span class="no">08</span> CAPTURE PIPELINE <span class="rule"></span></div>
-    <div class="stat-row" id="stat-row"></div>
-    <p class="strip-note">The real app runs this loop continuously and locally: capture, OCR, dedup, embed. Nothing here required a cloud call.</p>
-  </section>
-
-  <section class="panel">
-    <div class="sec-label"><span class="no">09</span> PRIVACY, AS ARCHITECTURE <span class="rule"></span></div>
-    <p class="strip-note">Sensitive windows can be excluded before a single frame is captured, not filtered out after the fact.</p>
-    <p class="strip-note">Answer synthesis sends the model matched snippets and window titles, never full-resolution frames.</p>
-  </section>
+  </main>
 
   <footer>
     <span>RETRACE · a Screen-Recall demo</span>
-    <span>engine: JS port of the real search code, parity-tested against the Python engine</span>
+    <span>engine ported to JS, parity-tested against the real Python search code</span>
     <span><a href="https://nicolastrabazo.com/">← nicolastrabazo.com</a></span>
   </footer>
-</div>
+
+  <div class="lightbox" id="lightbox"><img id="lightbox-img" src="" alt=""></div>
 
 <script src="retrace.js"></script>
 <script src="corpus.js"></script>
@@ -493,18 +231,10 @@
 
   const index = Retrace.buildIndex(CORPUS.MOMENTS);
   const momentsById = new Map(CORPUS.MOMENTS.map((m) => [m.id, m]));
-  const maxOcrLen = Math.max(...CORPUS.MOMENTS.map((m) => m.ocr_text.length));
+  const allMoments = [...CORPUS.MOMENTS].sort((a, b) => a.id - b.id);
 
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  }
-  function escapeRegex(s) {
-    return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  }
-  function highlightTerms(escapedText, terms) {
-    if (!terms || !terms.length) return escapedText;
-    const pattern = new RegExp("\\b(" + terms.map(escapeRegex).join("|") + ")\\b", "gi");
-    return escapedText.replace(pattern, "<mark>$1</mark>");
   }
   function arraysEqual(a, b) {
     if (a.length !== b.length) return false;
@@ -519,38 +249,29 @@
     return true;
   }
 
-  /* ---------- day label + pipeline stats ---------- */
-  $("day-label").textContent = CORPUS.DAY_LABEL;
-  $("stat-row").innerHTML =
-    `<span><b>${CORPUS.STATS.frames_captured}</b> frames captured</span>` +
-    `<span class="stat-arrow">→</span>` +
-    `<span><b>${CORPUS.STATS.stored_after_dedup}</b> survive dedup <span style="color:var(--faint); font-size:0.7rem;">(8×8 perceptual hash, Hamming distance)</span></span>` +
-    `<span class="stat-arrow">→</span>` +
-    `<span><b>${CORPUS.STATS.shown_here}</b> curated into this demo</span>`;
-
-  /* ---------- self-test (mirrors selftest.node.js) ---------- */
+  /* ---------- verification (self-test), tucked away, mirrors selftest.node.js ---------- */
   function runSelfTest() {
     const rows = [];
     let allPass = true;
     for (const chip of CORPUS.CHIPS) {
       const expected = CORPUS.EXPECTED[chip.id];
       const result = Retrace.search(CORPUS, chip.query, chip.id);
-      const gotTop5 = result.fused.slice(0, 5);
       const lexOk = arraysEqual(result.lex, expected.lex);
       const semOk = arraysEqual(result.sem, expected.sem);
-      const fusedOk = fusedTop5Equal(gotTop5, expected.fused);
+      const fusedOk = fusedTop5Equal(result.fused.slice(0, 5), expected.fused);
       const confOk = result.confidence === expected.confidence;
       const pass = lexOk && semOk && fusedOk && confOk;
       if (!pass) allPass = false;
       rows.push({ chip: chip.id, pass, lexOk, semOk, fusedOk, confOk });
     }
     const passCount = rows.filter((r) => r.pass).length;
-    $("selftest-dot").className = "dot " + (allPass ? "pass" : "fail");
-    $("selftest-text").textContent = "SELF-TEST " + passCount + "/" + rows.length + (allPass ? " PASS" : " FAIL");
+
+    $("verify-summary").innerHTML =
+      `<span class="verify-dot ${allPass ? "pass" : "fail"}"></span>Every capture on this page is fabricated for this demo — the search engine itself (BM25 lexical search, MiniLM embeddings, reciprocal rank fusion) is the real thing, checked against the Python source on load: <b>${passCount}/${rows.length} verified</b>.`;
 
     const tbl = document.createElement("table");
     const head = tbl.insertRow();
-    for (const h of ["chip", "lex", "sem", "fused", "confidence", "result"]) {
+    for (const h of ["example", "lexical rank", "semantic rank", "fused score", "confidence", "result"]) {
       const th = document.createElement("th");
       th.textContent = h;
       head.appendChild(th);
@@ -560,25 +281,30 @@
       row.insertCell().textContent = r.chip;
       for (const ok of [r.lexOk, r.semOk, r.fusedOk, r.confOk]) {
         const cell = row.insertCell();
-        cell.textContent = ok ? "ok" : "miss";
+        cell.textContent = ok ? "match" : "diverged";
         cell.className = ok ? "ok" : "bad";
       }
       const rc = row.insertCell();
-      rc.textContent = r.pass ? "PASS" : "FAIL";
+      rc.textContent = r.pass ? "verified" : "mismatch";
       rc.className = r.pass ? "ok" : "bad";
     }
-    $("selftest-detail").replaceChildren(tbl);
+    const note = document.createElement("p");
+    note.style.marginTop = "10px";
+    note.style.maxWidth = "70ch";
+    note.style.lineHeight = "1.7";
+    note.textContent =
+      "How: corpus.js's reference rankings are computed offline by the real Python app (real SQLite FTS5 BM25, the real MiniLM model, the real rrf_fuse function) — never hand-typed. This page replays every example above through a from-scratch JavaScript port of that same engine and diffs the results on load. Full source: demo/ in the project repo.";
+    $("verify-detail").replaceChildren(tbl, note);
     return allPass;
   }
   runSelfTest();
 
-  $("selftest-chip").addEventListener("click", () => {
-    const p = $("selftest-panel");
-    const open = p.classList.toggle("open");
-    $("selftest-chip").setAttribute("aria-expanded", String(open));
+  $("verify-toggle").addEventListener("click", () => {
+    const open = $("verify-detail").classList.toggle("open");
+    $("verify-toggle").textContent = open ? "Hide details ↑" : "See how it's verified →";
   });
 
-  /* ---------- chips ---------- */
+  /* ---------- suggestion chips ---------- */
   const chipsEl = $("chips");
   const chipButtons = new Map();
   for (const chip of CORPUS.CHIPS) {
@@ -593,216 +319,202 @@
     chipButtons.set(chip.id, b);
   }
 
-  /* ---------- timeline ---------- */
+  /* ---------- timeline (always shows the full fabricated day) ---------- */
   const timelineEl = $("timeline");
-  const barsById = new Map();
-  for (const m of CORPUS.MOMENTS) {
-    const bar = document.createElement("button");
-    bar.className = "tbar";
-    bar.dataset.id = m.id;
-    const h = 15 + 85 * (m.ocr_text.length / maxOcrLen);
-    bar.style.height = h.toFixed(1) + "%";
-    bar.title = m.t + " · " + m.window_title;
-    bar.setAttribute("aria-label", m.t + " " + m.window_title);
-    bar.addEventListener("click", () => {
+  const thumbsById = new Map();
+  for (const m of allMoments) {
+    const btn = document.createElement("button");
+    btn.className = "thumb";
+    btn.dataset.id = m.id;
+    const img = document.createElement("img");
+    img.src = m.image;
+    img.loading = "lazy";
+    img.alt = m.window_title;
+    const meta = document.createElement("div");
+    meta.className = "thumb-meta";
+    const t = document.createElement("span");
+    t.textContent = m.t;
+    meta.appendChild(t);
+    btn.appendChild(img);
+    btn.appendChild(meta);
+    btn.title = `${m.window_title} — ${m.t}`;
+    btn.addEventListener("click", () => {
       userInteracted = true;
-      setActiveBar(m.id);
-      renderFrame(m, []);
+      selectMoment(m.id, { rerunAsSearch: false });
     });
-    timelineEl.appendChild(bar);
-    barsById.set(m.id, bar);
-  }
-  $("tl-start").textContent = CORPUS.MOMENTS[0].t;
-  $("tl-end").textContent = CORPUS.MOMENTS[CORPUS.MOMENTS.length - 1].t;
-
-  function setActiveBar(id) {
-    for (const bar of barsById.values()) bar.classList.remove("active");
-    const bar = barsById.get(id);
-    if (bar) {
-      bar.classList.add("active");
-      bar.scrollIntoView({ block: "nearest", inline: "center", behavior: REDUCED ? "auto" : "smooth" });
-    }
+    timelineEl.appendChild(btn);
+    thumbsById.set(m.id, { btn, meta });
   }
 
-  /* ---------- frame viewer ---------- */
-  function classifyLine(line, app) {
-    if (/^(PS>|>)/.test(line)) return "ln-prompt";
-    if (/^(ERROR|AADSTS)/i.test(line)) return "ln-error";
-    if (/^#/.test(line)) return "ln-heading";
-    if (/^[-•]/.test(line) || /^\d+\s/.test(line)) return "ln-bullet";
-    if (app === "chat" && /^You:/.test(line)) return "ln-you";
-    return "";
-  }
-
-  function renderFrame(m, terms) {
-    const appLabels = { terminal: "TERMINAL", editor: "EDITOR", browser: "BROWSER", docs: "DOCS", chat: "CHAT" };
-    const linesHtml = m.lines
-      .map((line, i) => {
-        const cls = classifyLine(line, m.app);
-        const text = highlightTerms(escapeHtml(line), terms);
-        return `<div class="frame-line ${cls}" data-ln="${i + 1}">${text}</div>`;
-      })
-      .join("");
-    $("frame-viewer").innerHTML = `
-      <div class="frame app-${m.app}">
-        <div class="frame-chrome">
-          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
-          <span class="frame-app-tag">${appLabels[m.app] || m.app.toUpperCase()}</span>
-          <span class="frame-title">${escapeHtml(m.window_title)}</span>
-          <span class="frame-time">${m.t}</span>
-        </div>
-        <div class="frame-body">${linesHtml}</div>
-        <div class="frame-synth">SYNTHETIC DATA — every frame is fabricated, never a real capture</div>
-      </div>`;
-  }
-
-  function renderFrameIdle(message) {
-    $("frame-viewer").innerHTML = `<div class="frame-idle">${escapeHtml(message)}</div>`;
-  }
-
-  /* ---------- results columns ---------- */
-  function renderColumn(elId, ids, winnerId, terms) {
-    const el = $(elId);
-    if (!ids || ids.length === 0) {
-      el.innerHTML = '<p class="col-empty">no results.</p>';
-      return;
-    }
-    el.innerHTML = ids
-      .slice(0, 8)
-      .map((id, i) => {
-        const m = momentsById.get(id);
-        const isWinner = id === winnerId;
-        const title = highlightTerms(escapeHtml(m.window_title), terms);
-        return `<div class="result-row ${isWinner ? "winner" : ""}">
-          <span class="r-rank">${i + 1}</span>
-          <span class="r-time">${m.t}</span>
-          <span class="r-title">${title}</span>
-        </div>`;
-      })
-      .join("");
-  }
-
-  /* ---------- fusion panel ---------- */
-  function renderFusion(result) {
-    const el = $("fusion-content");
-    const top = result.fused[0];
-    if (!top) {
-      el.innerHTML = '<p class="fusion-empty">nothing matched — no fused candidates at all.</p>';
-      return;
-    }
-    const [winnerId, score] = top;
-    const m = momentsById.get(winnerId);
-    const rLex = result.lex.indexOf(winnerId);
-    const rSem = result.sem.indexOf(winnerId);
-    const k = CORPUS.CONSTANTS.RRF_K;
-    const parts = [];
-    if (rLex >= 0) parts.push(`1/(${k}+${rLex + 1})`);
-    if (rSem >= 0) parts.push(`1/(${k}+${rSem + 1})`);
-    const formula = parts.join(" + ") + ` = ${score.toFixed(4)}`;
-
-    let gateHtml;
-    if (result.mode === "hybrid") {
-      const min = CORPUS.CONSTANTS.CONFIDENCE_MIN_TOP_RRF;
-      const passScore = score >= min;
-      const passLex = result.lex.length > 0;
-      const passSem = result.sem.length > 0;
-      const pass = passScore && passLex && passSem;
-      gateHtml = `<div class="gate ${pass ? "pass" : "fail"}">
-        score ${score.toFixed(4)} ${passScore ? "≥" : "<"} threshold ${min}
-        · lexical channel ${passLex ? "returned results" : "EMPTY"}
-        · semantic channel ${passSem ? "returned results" : "EMPTY"}
-        → ${pass ? "HIGH CONFIDENCE" : "LOW CONFIDENCE"}
-      </div>`;
-    } else {
-      gateHtml = `<div class="gate note">
-        confidence scoring needs both channels — runs in the full app.
-        typed queries stay lexical-only, so this score is not gate-checked here.
-      </div>`;
-    }
-
-    el.innerHTML = `
-      <div class="fusion-winner"><span class="fw-time">${m.t}</span><span class="fw-title">${escapeHtml(m.window_title)}</span></div>
-      <div class="fusion-formula">${formula}</div>
-      ${gateHtml}`;
-  }
-
-  /* ---------- answer panel ---------- */
-  function renderAnswer(result, chip) {
-    const el = $("answer-card");
-    if (result.mode === "hybrid") {
-      if (result.confidence === "high" && chip.answer) {
-        el.innerHTML = `<div class="answer-badge high">CONFIDENCE: HIGH</div><p>${escapeHtml(chip.answer.text)}</p>`;
-      } else {
-        el.innerHTML = `<div class="answer-badge low">CONFIDENCE: LOW</div><p>no confident match in this day — the real app would broaden the search once, then answer with confidence: low, rather than say "not found."</p>`;
+  function markSelected(id, matchId) {
+    for (const [mid, t] of thumbsById) {
+      t.btn.classList.toggle("selected", mid === id);
+      const existingDot = t.meta.querySelector(".match-dot");
+      if (mid === matchId) {
+        if (!existingDot) {
+          const dot = document.createElement("span");
+          dot.className = "match-dot";
+          dot.title = "Matched capture";
+          t.meta.appendChild(dot);
+        }
+      } else if (existingDot) {
+        existingDot.remove();
       }
-      return;
     }
+  }
+
+  function scrollThumbIntoView(id) {
+    const t = thumbsById.get(id);
+    if (!t) return;
+    t.btn.scrollIntoView({ block: "nearest", inline: "center", behavior: REDUCED ? "auto" : "smooth" });
+  }
+
+  /* ---------- capture preview ---------- */
+  function renderCapturePreview(m) {
+    const el = $("capture-preview");
+    el.style.display = "block";
+    el.innerHTML = `
+      <div class="cp-head">
+        <span class="t" title="${escapeHtml(m.window_title)}">${escapeHtml(m.window_title)}</span>
+        <div class="cp-actions">
+          <button class="view-btn" id="cp-fullsize">⤢ Full size</button>
+        </div>
+      </div>
+      <div class="cp-img-wrap" id="cp-img-wrap"><img src="${m.image}" alt="${escapeHtml(m.window_title)}"></div>
+      <p class="cp-snippet" title="${escapeHtml(m.ocr_text)}">${escapeHtml(m.ocr_text)}</p>
+    `;
+    const openLightbox = () => {
+      $("lightbox-img").src = m.image;
+      $("lightbox").classList.add("open");
+    };
+    $("cp-fullsize").addEventListener("click", openLightbox);
+    $("cp-img-wrap").addEventListener("click", openLightbox);
+  }
+
+  $("lightbox").addEventListener("click", () => $("lightbox").classList.remove("open"));
+
+  /* ---------- answer card ---------- */
+  function renderAnswerCard(result, chip, queryText) {
+    const el = $("answer-card");
+    el.style.display = "block";
+
+    if (result.mode === "hybrid") {
+      const primary = momentsById.get(result.fused[0] ? result.fused[0][0] : null);
+      const isLow = result.confidence !== "high";
+      const answerText = !isLow && chip.answer ? chip.answer.text : null;
+      el.innerHTML = `
+        <div class="answer-top">
+          <span class="microlabel">recall answer</span>
+          <span class="microlabel q">“${escapeHtml(queryText)}”</span>
+          ${isLow ? '<span class="badge-guess">best guess</span>' : ""}
+        </div>
+        <p class="answer-text">${escapeHtml(answerText || "No confident match in this fabricated day — the real app would broaden the search once and answer with lower confidence rather than say nothing.")}</p>
+        ${isLow ? '<p class="answer-caveat">Closest match I could find — not fully sure. Scrub the strip below to double-check.</p>' : ""}
+        ${primary ? `<div class="cited-row" id="cited-row"><img src="${primary.image}" alt=""><div class="cited-info"><p class="t">${escapeHtml(primary.window_title)}</p><p class="microlabel">cited · ${primary.t} · id ${primary.id}</p></div><button class="view-btn" id="cited-view">View</button></div>` : ""}
+      `;
+      if (primary) {
+        const jump = () => selectMoment(primary.id, { rerunAsSearch: false });
+        $("cited-view").addEventListener("click", jump);
+        $("cited-row").querySelector("img").addEventListener("click", jump);
+      }
+      return primary ? primary.id : null;
+    }
+
     // lexical-only (typed query)
     if (result.lex.length === 0) {
-      el.innerHTML = `<div class="answer-badge low">NO MATCH</div><p>nothing in this synthetic day matches that. try one of the chips above, or a word that actually appears in the day.</p>`;
-    } else {
-      const top = momentsById.get(result.lex[0]);
-      el.innerHTML = `<div class="answer-badge note">RETRIEVAL ONLY</div><p>answer synthesis runs via Haiku in the full local app — this demo only shows retrieval. top lexical match: <b>${escapeHtml(top.window_title)}</b> at ${top.t}.</p>`;
+      el.innerHTML = `
+        <div class="answer-top">
+          <span class="microlabel">recall answer</span>
+          <span class="microlabel q">“${escapeHtml(queryText)}”</span>
+        </div>
+        <p class="answer-text">Nothing in this fabricated day matches that. Try one of the examples above, or a word that actually appears in the day.</p>
+      `;
+      return null;
     }
+    const top = momentsById.get(result.lex[0]);
+    el.innerHTML = `
+      <div class="answer-top">
+        <span class="microlabel">recall answer</span>
+        <span class="microlabel q">“${escapeHtml(queryText)}”</span>
+        <span class="badge-guess">keyword match</span>
+      </div>
+      <p class="answer-text">Closest keyword match: <b>${escapeHtml(top.window_title)}</b> at ${top.t}. Full semantic answers (like the examples above) need the local embedding model — this demo only runs the meaning-based match on the six precomputed examples.</p>
+      <div class="cited-row" id="cited-row"><img src="${top.image}" alt=""><div class="cited-info"><p class="t">${escapeHtml(top.window_title)}</p><p class="microlabel">cited · ${top.t} · id ${top.id}</p></div><button class="view-btn" id="cited-view">View</button></div>
+    `;
+    const jump = () => selectMoment(top.id, { rerunAsSearch: false });
+    $("cited-view").addEventListener("click", jump);
+    $("cited-row").querySelector("img").addEventListener("click", jump);
+    return top.id;
   }
 
   /* ---------- orchestration ---------- */
-  function render(result, chip, queryText) {
-    const terms = Retrace.tokenize(queryText);
-    const winnerId = result.fused.length ? result.fused[0][0] : null;
+  function selectMoment(id, { rerunAsSearch }) {
+    const m = momentsById.get(id);
+    if (!m) return;
+    renderCapturePreview(m);
+    markSelected(id, currentMatchId);
+    scrollThumbIntoView(id);
+  }
 
-    renderColumn("lex-results", result.lex, winnerId, terms);
-    if (result.mode === "hybrid") {
-      renderColumn("sem-results", result.sem, winnerId, terms);
-    } else {
-      $("sem-results").innerHTML =
-        '<p class="col-note">semantic needs the MiniLM model — it runs in the full local app. The six example chips carry precomputed vectors so they can show real semantic results here; typed queries stay lexical-only.</p>';
-    }
-    renderFusion(result);
-    renderAnswer(result, chip);
+  let currentMatchId = null;
 
+  function runSearch(query, chipId) {
+    $("idle-state").style.display = "none";
+    $("back-btn").style.display = "inline-flex";
+    $("input-hint").textContent = "";
+
+    const chip = chipId ? CORPUS.CHIPS.find((c) => c.id === chipId) : null;
+    const result = Retrace.search(CORPUS, query, chipId || null);
+    const primaryId = renderAnswerCard(result, chip, query);
+
+    currentMatchId = primaryId;
     for (const b of chipButtons.values()) b.classList.remove("active");
     if (chip && chipButtons.has(chip.id)) chipButtons.get(chip.id).classList.add("active");
 
-    if (winnerId) {
-      setActiveBar(winnerId);
-      renderFrame(momentsById.get(winnerId), terms);
+    if (primaryId) {
+      selectMoment(primaryId, { rerunAsSearch: true });
     } else {
-      for (const bar of barsById.values()) bar.classList.remove("active");
-      renderFrameIdle("no moment matched — try a chip above, or a word from the day.");
+      $("capture-preview").style.display = "none";
+      markSelected(null, null);
     }
   }
 
   function runChip(chipId) {
     const chip = CORPUS.CHIPS.find((c) => c.id === chipId);
     $("query").value = chip.query;
-    $("charcount").textContent = chip.query.length + "/200";
-    $("input-hint").textContent = "";
-    const result = Retrace.search(CORPUS, chip.query, chipId);
-    render(result, chip, chip.query);
+    runSearch(chip.query, chipId);
   }
 
   function runTyped() {
     const q = $("query").value.trim();
     if (!q) {
-      $("input-hint").textContent = "type something to search, or click a chip above.";
+      $("input-hint").textContent = "Type something to search, or click an example above.";
       return;
     }
-    $("input-hint").textContent = "";
-    const result = Retrace.search(CORPUS, q, null);
-    render(result, null, q);
+    runSearch(q, null);
   }
+
+  function backToBrowse() {
+    $("answer-card").style.display = "none";
+    $("capture-preview").style.display = "none";
+    $("idle-state").style.display = "block";
+    $("back-btn").style.display = "none";
+    $("query").value = "";
+    $("input-hint").textContent = "";
+    currentMatchId = null;
+    for (const b of chipButtons.values()) b.classList.remove("active");
+    markSelected(null, null);
+  }
+  $("back-btn").addEventListener("click", () => {
+    userInteracted = true;
+    backToBrowse();
+  });
 
   /* ---------- input wiring ---------- */
   let userInteracted = false;
-  function markInteracted() { userInteracted = true; }
-  window.addEventListener("pointerdown", markInteracted, { once: true });
-  window.addEventListener("keydown", markInteracted, { once: true });
+  window.addEventListener("pointerdown", () => (userInteracted = true), { once: true });
+  window.addEventListener("keydown", () => (userInteracted = true), { once: true });
 
-  $("query").addEventListener("input", () => {
-    userInteracted = true;
-    $("charcount").textContent = $("query").value.length + "/200";
-  });
   $("query").addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       userInteracted = true;
@@ -814,7 +526,7 @@
     runTyped();
   });
 
-  /* ---------- auto-run first chip ---------- */
+  /* ---------- auto-run the flagship example ---------- */
   if (!REDUCED) {
     setTimeout(() => {
       if (!userInteracted) runChip(CORPUS.CHIPS[0].id);
