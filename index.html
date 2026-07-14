@@ -458,6 +458,60 @@
       </div>
 
       <div class="proj span2">
+        <p class="proj-n">Personal Project</p>
+        <h3 class="proj-name">Retrace</h3>
+        <p class="proj-desc">A local app that continuously captures the screen, reads it with OCR, and makes every moment searchable by keyword and by meaning. The engineering is in the retrieval layer: a hybrid search engine that fuses lexical and semantic ranking, and a capture pipeline built around exclusion and deduplication so nothing sensitive gets stored and nothing redundant gets kept.</p>
+        <button class="proj-toggle" aria-expanded="false" onclick="toggleProj(this)">
+          <span>View Details</span>
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.6">
+            <polyline points="1.5,3.5 5.5,7.5 9.5,3.5"/>
+          </svg>
+        </button>
+
+        <div class="proj-detail" role="region">
+          <div class="proj-detail-inner">
+
+            <p class="proj-overview">
+              Point it at your own history and ask what you were doing, and it answers from a local
+              index built from screen captures, never from the cloud. The retrieval math below,
+              lexical scoring, embedding similarity, and the fusion that combines them, is the same
+              code that powers the live demo.
+            </p>
+
+            <div class="proj-phase-grid">
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 01</p>
+                <p class="proj-phase-t">Capture Pipeline Engineering</p>
+                <p class="proj-phase-d">Captures the screen on an interval, filters out excluded windows before a frame is ever written to disk, and runs a perceptual hash over every frame so near-duplicate moments never bloat the index. OCR extracts the text that makes each moment searchable.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 02</p>
+                <p class="proj-phase-t">Hybrid Retrieval</p>
+                <p class="proj-phase-d">Built a search layer that runs a keyword engine and a local embedding model side by side, then fuses their rankings with reciprocal rank fusion rather than trusting either signal alone. A confidence check decides when the app should broaden the search instead of guessing.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 03</p>
+                <p class="proj-phase-t">Privacy As Architecture</p>
+                <p class="proj-phase-d">Exclusion happens before capture, not as a filter applied afterward. Answer synthesis only ever sees matched snippets and window titles, never full-resolution frames, and everything, capture, index, and search, runs on the machine.</p>
+              </div>
+
+              <div class="proj-phase">
+                <p class="proj-phase-n">Phase 04</p>
+                <p class="proj-phase-t">Proving It Works</p>
+                <p class="proj-phase-d">Built a standalone browser demo that runs the exact same search engine, ported line for line, against a fabricated day of activity, with the JavaScript port checked for parity against the real Python engine on every query.</p>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <a class="proj-link" href="/retrace/" target="_blank" rel="noopener">Launch Live Demo <span aria-hidden="true">&#8599;</span></a>
+      </div>
+
+      <div class="proj span2">
         <p class="proj-n">Academic — Master's Level</p>
         <h3 class="proj-name">Enterprise Risk Management</h3>
         <p class="proj-desc">Conducted asset-threat-vulnerability assessments using Clearwater IRM|Pro, producing residual risk scores to inform control selection across a simulated enterprise environment. Applied NIST risk assessment methodology to quantify inherent vs. residual risk and develop prioritized mitigation plans with documented feasibility and effectiveness ratings.</p>
